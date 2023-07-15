@@ -17,8 +17,8 @@
     <link href="{{ asset('Admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
     <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+  
     <style>
-
     .pagination {
         display: flex;
         justify-content: center;

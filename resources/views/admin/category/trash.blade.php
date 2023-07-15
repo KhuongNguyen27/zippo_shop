@@ -1,6 +1,5 @@
 @extends('Admin.master')
 @section('content')
-@include('sweetalert::alert')
 <a href="{{ route('category.create') }}" class='btn btn-primary'>Create</a>
 <table class="table">
     <tr>

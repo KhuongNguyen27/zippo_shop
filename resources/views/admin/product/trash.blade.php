@@ -1,6 +1,5 @@
 @extends('Admin.master')
 @section('content')
-@include('sweetalert::alert')
 <a href="{{ route('product.create') }}" class='btn btn-primary'>Create</a>
 <table class="table">
     <tr>
@@ -28,13 +27,12 @@
         <td>{{ $product->selled }}</td>
         <td>
             <div class="d-flex">
-                <a href="{{ route('product.edit', $product->id) }}" class='btn btn-primary'>Edit</a>
-                <form action="{{ route('product.destroy',$product->id) }}" method="post">
-                    @csrf
-                    @method('delete')
-                    <button type="submit" class="btn btn-danger"
-                        onclick="return confirm('Are you sure?')">Delete</button>
-                </form>
+                <a href="{{ route('product.restore', $product->id) }}"
+                    onclick="return confirm('Do u want to restore record?');" class="btn btn-primary">Restore
+                </a>
+                <a href="{{ route('product.deleteforever', $product->id) }}"
+                    onclick="return confirm('Do u want to delete forever record?');" class="btn btn-danger">
+                    Detroy</a>
             </div>
         </td>
     </tr>

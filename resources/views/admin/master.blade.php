@@ -1,5 +1,4 @@
 @include('admin.include.header')
-
 <body id="page-top">
     <div id="wrapper">
         @include( 'admin.include.sidebar')
@@ -13,3 +12,5 @@
             @include('admin.include.footer')
         </div>
     </div>
+
+    

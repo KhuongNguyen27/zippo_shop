@@ -106,10 +106,9 @@ class CategoryController extends Controller
     function destroy(String $id)
     {
         $category = Category::find($id);
-        if ($category->delete()) {
-            alert()->success('Success move to trash');
-            return redirect()->route('category.index');
-        }
+        $category->delete();
+        alert()->success('Success move to trash');
+        return redirect()->route('category.index');
     }
     function restore(String $id){
         try {

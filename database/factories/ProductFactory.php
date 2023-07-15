@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             'status' => fake()->numberBetween($min = 1, $max = 3),
             'quantity' => fake()->numberBetween($min = 1, $max = 10),
             'price' => fake()->numberBetween($min = 1000000, $max = 10000000),
-            'discount_price' => fake()->numberBetween($min = 10, $max = 100),
+            'discount' => fake()->numberBetween($min = 10, $max = 100),
             'selled' => fake()->numberBetween($min = 1, $max = 100)
         ];
     }

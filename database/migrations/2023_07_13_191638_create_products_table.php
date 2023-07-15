@@ -20,8 +20,8 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0);
             $table->bigInteger('quantity');
             $table->bigInteger('price');
-            $table->float('discount_price');
-            $table->integer('selled');
+            $table->float('discount')->nullable();
+            $table->integer('selled')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories');
