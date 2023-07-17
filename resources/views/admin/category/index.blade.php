@@ -5,19 +5,20 @@
 <table class="table">
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">Image</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
+        <th scope="col"></th>
+        <th scope="col">Information</th>
         <th scope="col">Action</th>
     </tr>
     @foreach ($categories as $category)
     <tr>
         <td>{{ $category->id }}</td>
-        <td class = "w-25"><img class="img-thumbnail" src="{{ asset($category->image) }}" alt=""></td>
-        <td>{{ $category->name }}</td>
-        <td>{{ $category->description }}</td>
+        <td class="w-25"><img class="img-thumbnail" src="{{ asset($category->image) }}" alt=""></td>
         <td>
-            <div class="d-flex">    
+        <b>Type :</b> {{ $category->name }}</br>
+        <b>Description :</b> {{ $category->description }}
+        </td>
+        <td>
+            <div class="d-flex">
                 <a href="{{ route('category.edit', $category->id) }}" class='btn btn-primary'>Edit</a>
                 <form action="{{ route('category.destroy',$category->id) }}" method="post">
                     @csrf

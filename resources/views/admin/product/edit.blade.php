@@ -4,31 +4,33 @@
     @csrf
     @method('PUT')
     <div class="mb-3">
-        <div class="form-group">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control form-control-user" value='{{ $product->name }}' name="name"
-                placeholder="Tu tien">
-            @error('name')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
+    <div class="form-group row">
+            <div class="col-sm-6">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control form-control-user" name="name" placeholder="Tu tien">
+                @error('name')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col-sm-6">
+                <label class="form-label">Category</label>
+                <select class="form-control form-control-user" name="category_id" id="">
+                    <option>Select category...</option>
+                    @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->id }} : {{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
+        
         <div class="form-group">
-            <label class="form-label">Category</label>
-            <select class="form-control form-control-user" value='{{ $product->category_id }}' name="category_id" id="">
-                <option>Select category...</option>
-                @foreach($products as $product)
-                <option value="{{ $product->category->id }}">{{ $product->category->name }}</option>
-                @endforeach
-            </select>
-            @error('category_id')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label class="form-label">Price</label>
-            <input type="text" class="form-control form-control-user" value='{{ $product->price }}' name="price"
-                placeholder="XXX.XXX VND">
-            @error('price')
+            <label class="form-label">Description</label>
+            <textarea name="description" id="description" class="form-control" rows="5"
+                style="resize: none">{{ $product->description }}</textarea>
+            @error('description')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
@@ -49,10 +51,10 @@
             @enderror
         </div>
         <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea name="description" id="description" class="form-control" rows="5"
-                style="resize: none">{{ $product->description }}</textarea>
-            @error('description')
+            <label class="form-label">Price</label>
+            <input type="text" class="form-control form-control-user" value='{{ $product->price }}' name="price"
+                placeholder="XXX.XXX VND">
+            @error('price')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>

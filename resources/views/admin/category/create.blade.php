@@ -6,7 +6,7 @@
 
         <div class="form-group">
             <label class="form-label">Name of category</label>
-            <input type="text" class="form-control w-50 mb-3" name='name'>
+            <input type="text" class="form-control w-50 mb-3" name='name' >
             @error('name')
             <div class="alert alert-danger w-50 mb-3 ">{{ $message }}</div>
             @enderror
@@ -14,7 +14,7 @@
 
         <div class="form-group">
             <label class="form-label">Description</label>
-            <input type="text" class="form-control w-50 mb-3" name='description'>
+            <input type="text" class="form-control w-50 mb-3" name='description' id='description'>
             @error('description')
             <div class="alert alert-danger w-50 mb-3 ">{{ $message }}</div>
             @enderror

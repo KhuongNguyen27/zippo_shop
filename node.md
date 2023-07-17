@@ -47,6 +47,9 @@ ex : Zippo Classics - Phổ Thông, Bật Lửa Zippo 12 Con Giáp, Bật Lửa 
 4. customers => khách hàng
 - id => bigint unsigned
 - name => varchar(255)
+- image  => varchar(255)
+- day_of_birth  => date
+- gender  => string
 - address => varchar(255)
 - email => varchar(255)
 - password => varchar(255)

@@ -11,20 +11,19 @@
         @enderror
 
         <label class="form-label">Description</label>
-        <input type="text" class="form-control w-50 mb-3" name='description' value="{{ $category->description }}">
+        <textarea name='description' id='description'>{{ $category->description }}</textarea>
         @error('description')
         <div class="alert alert-danger w-50 mb-3 ">{{ $message }}</div>
         @enderror
 
         <div class="form-group">
             <label class="form-label">Image</label>
-                <input type="file" class="form-control-file" id="inputFile" name="image">
-                <img src="{{ asset($category->image) ?? asset('public/images/' . old('image', $category->image)) }}"
-                    width="90px" height="90px" alt="">
+            <input type="file" class="form-control-file" id="inputFile" name="image">
             @error('image')
             <div class="alert alert-danger w-50 mb-3 ">{{ $message }}</div>
             @enderror
         </div>
+        <img src="{{ asset($category->image) }}" width="150px" height="150px" alt="">
 
         <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
     </div>
