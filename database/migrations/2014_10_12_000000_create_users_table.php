@@ -15,10 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->tinyInteger('gender');
+            $table->date('day_of_birth');
+            $table->text('address');
+            $table->text('phone');
+            $table->text('branch');
+            $table->unsignedBigInteger('group_id');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 

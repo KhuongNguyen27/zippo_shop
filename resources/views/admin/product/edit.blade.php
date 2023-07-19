@@ -7,14 +7,14 @@
     <div class="form-group row">
             <div class="col-sm-6">
                 <label class="form-label">Name</label>
-                <input type="text" class="form-control form-control-user" name="name" placeholder="Tu tien">
+                <input type="text" class="form-control form-control-user" value="{{ $product ->name }}" name="name" placeholder="Tu tien">
                 @error('name')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
             </div>
             <div class="col-sm-6">
                 <label class="form-label">Category</label>
-                <select class="form-control form-control-user" name="category_id" id="">
+                <select class="form-control form-control-user" value="{{ $product ->category_id }}" name="category_id" id="">
                     <option>Select category...</option>
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->id }} : {{ $category->name }}</option>
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Quantity</label>
-            <input type="text" class="form-control form-control-user" value='{{ $product->quantity }}' name="quantity"
+            <input type="text" class="form-control form-control-user" value='{{ $product->quantity }}' value="{{ $product ->quantity }}" name="quantity"
                 placeholder="10">
             @error('quantity')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -44,7 +44,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Discount</label>
-            <input type="text" class="form-control form-control-user" value='{{ $product->discount }}' name="discount"
+            <input type="text" class="form-control form-control-user" value='{{ $product->discount }}' value="{{ $product ->discount }}" name="discount"
                 placeholder="20%">
             @error('discount')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Price</label>
-            <input type="text" class="form-control form-control-user" value='{{ $product->price }}' name="price"
+            <input type="text" class="form-control form-control-user" value='{{ $product->price }}' value="{{ $product ->price }}" name="price"
                 placeholder="XXX.XXX VND">
             @error('price')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -61,7 +61,7 @@
         <div class="form-group">
             <label class="form-label">Image</label>
             <label for="file-upload" class="file-upload-label">
-                <input type="file" id="file-upload" value='{{ $product->image }}' name="image" accept="*" title=" ">
+                <input type="file" id="file-upload" value='{{ $product->image }}' value="{{ $product ->image }}" name="image" accept="*" title=" ">
                 @error('image')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror

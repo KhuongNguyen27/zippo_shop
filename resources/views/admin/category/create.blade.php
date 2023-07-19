@@ -14,7 +14,7 @@
 
         <div class="form-group">
             <label class="form-label">Description</label>
-            <input type="text" class="form-control w-50 mb-3" name='description' id='description'>
+            <textarea name='description' id='description'></textarea>
             @error('description')
             <div class="alert alert-danger w-50 mb-3 ">{{ $message }}</div>
             @enderror

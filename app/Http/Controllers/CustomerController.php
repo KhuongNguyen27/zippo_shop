@@ -42,9 +42,9 @@ class CustomerController extends Controller
         $customer->password = bcrypt($request->password);
         $fieldName = 'image';
         if ($request->hasFile($fieldName)) {
-            $path = 'storage/customer/';
             $get_img = $request->file($fieldName);
-            $new_name_img = $path.$request->email.$get_img->getClientOriginalName();
+            $path = 'storage/customer/';
+            $new_name_img = $path.rand(1,100).$get_img->getClientOriginalName();
             $get_img->move($path,$new_name_img);
             $customer->image = $path.$new_name_img;
         } 
@@ -117,7 +117,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $customer->delete();
         alert()->success('Success move to trash');
-        return redirect()->route('customer.index');
+        return back();
     }
     function restore(String $id){
         try {
@@ -126,7 +126,7 @@ class CustomerController extends Controller
             alert()->success('Restore customer success');
             return redirect()->route('customer.index');
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
             return redirect()->route('customer.index');
         }
@@ -140,11 +140,11 @@ class CustomerController extends Controller
             }
             $customer->forceDelete();
             alert()->success('Destroy customer success');
-            return redirect()->route('customer.index');
+            return back();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
-            return redirect()->route('customer.index');
+            return back();
         }
     }
 }

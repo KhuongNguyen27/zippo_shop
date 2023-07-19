@@ -18,9 +18,9 @@
                                 <div class="mb-3">
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <label class="form-label">Staff Name</label>
-                                            <input type="text" class="form-control form-control-user" name="name"
-                                                placeholder="Staff Name">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control form-control-user" name="name" value="{{ old('name') }}"
+                                                placeholder="User Name">
                                             @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Email Address</label>
-                                        <input type="email" class="form-control form-control-user" name="email"
+                                        <input type="email" class="form-control form-control-user" name="email" value="{{ old('email') }}"
                                             placeholder="Email Address">
                                         @error('email')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control form-control-user" name="phonenumber"
+                                        <input type="text" class="form-control form-control-user" name="phonenumber" value="{{ old('phonenumber') }}"
                                             placeholder="Phone Number">
                                         @error('phonenumber')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Address</label>
-                                        <input type="text" class="form-control form-control-user" name="address"
+                                        <input type="text" class="form-control form-control-user" name="address" value="{{ old('address') }}"
                                             placeholder="Address">
                                         @error('address')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Position</label>
-                                        <input type="text" class="form-control form-control-user" name="position"
+                                        <input type="text" class="form-control form-control-user" name="position" value="{{ old('address') }}"
                                             placeholder="Position">
                                         @error('position')
                                         <div class="alert alert-danger">{{ $message }}</div>

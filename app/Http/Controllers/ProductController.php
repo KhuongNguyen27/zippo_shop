@@ -40,6 +40,11 @@ class ProductController extends Controller
         $product->quantity = $request->quantity; 
         $product->discount = $request->discount; 
         $product->description = $request->description; 
+        $product->selled = 0;
+        $product->status = 0;
+        if ($product->quantity > 0) {
+            $product->status = 1;
+        }
         $fieldName = 'image';
         if ($request->hasFile($fieldName)) {
             $get_img = $request->file($fieldName);
@@ -84,6 +89,10 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->discount = $request->discount;
         $product->description = $request->description;
+        $product->status = 0;
+        if ($product->quantity > 0) {
+            $product->status = 1;
+        }
         $fieldName='image';
         if ($request->hasFile($fieldName)) {
             $path = $product->image;
@@ -116,16 +125,16 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
         alert()->success('Success move to trash');
-        return redirect()->route('product.index');
+        return back();
     }
     function restore(String $id){
         try {
             $softs = Product::withTrashed()->find($id);
             $softs->restore();
             alert()->success('Restore product success');
-            return redirect()->route('product.index');
+            return back();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
             return redirect()->route('product.index');
         }
@@ -139,11 +148,11 @@ class ProductController extends Controller
             }
             $softs->forceDelete();
             alert()->success('Destroy product success');
-            return redirect()->route('product.index');
+            return back();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
-            return redirect()->route('product.index');
+            return back();
         }
     }
 }

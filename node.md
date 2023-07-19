@@ -80,6 +80,8 @@ ex : Zippo Classics - Phổ Thông, Bật Lửa Zippo 12 Con Giáp, Bật Lửa 
 - id => bigint unsigned
 - name => varchar(255)
 - email => varchar(255)
+- gender => tinyInt
+- day_of_birth => date
 - password => varchar(255)
 - created_at => timestamp
 

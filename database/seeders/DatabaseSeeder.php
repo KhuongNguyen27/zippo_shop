@@ -8,6 +8,9 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\CustomerSeeder;
 use Database\Seeders\OrderSeeder;
+use Database\Seeders\OrderDetailSeeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\GroupSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(CustomerSeeder::class);
-        $this->call(OrderSeeder::class);
+        // $this->call(OrderSeeder::class);
+        // $this->call(OrderDetailSeeder::class);
+        $this->call(GroupSeeder::class);
+        $this->call(UserSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

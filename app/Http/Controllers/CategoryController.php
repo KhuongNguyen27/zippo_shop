@@ -108,7 +108,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->delete();
         alert()->success('Success move to trash');
-        return redirect()->route('category.index');
+        return back();
     }
     function restore(String $id){
         try {
@@ -117,7 +117,7 @@ class CategoryController extends Controller
             alert()->success('Restore category success');
             return redirect()->route('category.index');
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
             return redirect()->route('category.index');
         }
@@ -131,11 +131,11 @@ class CategoryController extends Controller
             }
             $softs->forceDelete();
             alert()->success('Destroy category success');
-            return redirect()->route('category.index');
+            return redirect()->back();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
-            return redirect()->route('category.index');
+            return back();
         }
     }
 }

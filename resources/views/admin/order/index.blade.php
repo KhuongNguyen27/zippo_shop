@@ -1,4 +1,4 @@
-@extends('Admin.master')
+@extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
 <a href="{{ route('order.create') }}" class='btn btn-primary'>Create</a>
@@ -13,11 +13,20 @@
             <b>ID : </b>{{ $order->id }}</br>
         </td>
         <td>
-            <b>Customer : </b>{{ $order->customer->name }}</br>
+            <b>Customer : </b>{{ ($order->customer->name) }}</br>
             <b>Note : </b>{{ $order->note }}</br>
             <b>Created at : </b>{{ $order->created_at }}</br>
             <b>Date ship : </b>{{ $order->date_ship }}</br>
-            <b>Total : </b>
+            @php
+                $total = 0;
+            @endphp
+
+            @foreach ($order->orderdetail as $detail)
+                @php
+                    $total += $detail->total;
+                @endphp
+            @endforeach
+            <b>Total : </b>{{ number_format($total) .' VND'}}
         </td>
         <td>
             <div class="d-flex">
@@ -28,6 +37,7 @@
                     <button type="submit" class="btn btn-danger"
                         onclick="return confirm('Are you sure?')">Delete</button>
                 </form>
+                <a href="{{ route('order.show', $order->id) }}" class='btn btn-primary'>Detail</a>
             </div>
         </td>
     </tr>

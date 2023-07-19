@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Customer extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'customers';
+    public $table = 'customers';
     public function order()
     {
         return $this->hasMany(Order::class,'customer_id', 'id');

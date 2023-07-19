@@ -13,12 +13,12 @@ class Order extends Model
     protected $table = 'orders';
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(Customer::class, 'customer_id', 'id')->withTrashed();
         
     }
-    // public function orderdetail()
-    // {
-    //     return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    public function orderdetail()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id')->withTrashed();
         
-    // }
+    }
 }

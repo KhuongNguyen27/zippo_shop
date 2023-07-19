@@ -14,7 +14,7 @@
         <?php 
         ?>
         <td>{{ $customer->id }}</td>
-        <td class="w-25"><img class="w-100 rounded-circle" src="{{ asset($customer->image) }}" alt=""></td>
+        <td class="w-25"><img class="img-thumbnail" src="{{ asset($customer->image) }}" alt=""></td>
         <td>
             <b>Name : </b>{{ $customer->name }}</br>
             <b>Day of birth : </b>{{ $customer->day_of_birth }}</br>

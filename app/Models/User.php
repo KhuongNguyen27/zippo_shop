@@ -42,4 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function group()
+    {
+        return $this->belongsTo(User::class, 'group_id', 'id')->withTrashed();
+        
+    }
 }

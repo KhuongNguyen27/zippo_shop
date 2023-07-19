@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOrderRequest extends FormRequest
+class UpdateOrderDetailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,10 +21,11 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd($this->request);
         return [
-            'customer_id' => 'required|numeric',
-            'note' => 'required',
-            'date_ship' => 'required|date',
+            'order_id' => 'required|numeric',
+            'product_id' => 'required|numeric',
+            'quantity' => 'required|numeric',
         ];
     }
 }

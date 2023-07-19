@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,52 +29,66 @@ use App\Http\Controllers\OrderController;
 //     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 // });
 
-    // route category
-    Route::group(['prefix'=>'category'],function(){
-        Route::get('/trash',[CategoryController::class,'trash'])->name('category.trash');
-        Route::get('/restore/{id}',[CategoryController::class,'restore'])->name('category.restore');
-        Route::get('/deleteforever/{id}',[CategoryController::class,'deleteforever'])->name('category.deleteforever');
-    });
-    Route::resource('category',CategoryController::class);
+    Route::get('/login',[AuthController::class,'login'])->name('auth.login');
+    Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
+    Route::get('/register',[AuthController::class,'register'])->name('auth.register');
+    Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
 
-    // route product
-    Route::group(['prefix'=>'product'],function(){
-        Route::get('/trash',[ProductController::class,'trash'])->name('product.trash');
-        Route::get('/restore/{id}',[ProductController::class,'restore'])->name('product.restore');
-        Route::get('/deleteforever/{id}',[ProductController::class,'deleteforever'])->name('product.deleteforever');
-    });
-    Route::resource('product',ProductController::class);
+    Route::middleware(['auth'])->group(function(){
+        Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
+        // route category
+        Route::group(['prefix'=>'category'],function(){
+            Route::get('/trash',[CategoryController::class,'trash'])->name('category.trash');
+            Route::get('/restore/{id}',[CategoryController::class,'restore'])->name('category.restore');
+            Route::get('/deleteforever/{id}',[CategoryController::class,'deleteforever'])->name('category.deleteforever');
+        });
+        Route::resource('category',CategoryController::class);
 
-    // route customer
-    Route::group(['prefix'=>'customer'],function(){
-        Route::get('/trash',[CustomerController::class,'trash'])->name('customer.trash');
-        Route::get('/restore/{id}',[CustomerController::class,'restore'])->name('customer.restore');
-        Route::get('/deleteforever/{id}',[CustomerController::class,'deleteforever'])->name('customer.deleteforever');
-    });
-    Route::resource('customer',CustomerController::class);
+        // route product
+        Route::group(['prefix'=>'product'],function(){
+            Route::get('/trash',[ProductController::class,'trash'])->name('product.trash');
+            Route::get('/restore/{id}',[ProductController::class,'restore'])->name('product.restore');
+            Route::get('/deleteforever/{id}',[ProductController::class,'deleteforever'])->name('product.deleteforever');
+        });
+        Route::resource('product',ProductController::class);
 
-    // route order
-    Route::group(['prefix'=>'order'],function(){
-        Route::get('/trash',[OrderController::class,'trash'])->name('order.trash');
-        Route::get('/restore/{id}',[OrderController::class,'restore'])->name('order.restore');
-        Route::get('/deleteforever/{id}',[OrderController::class,'deleteforever'])->name('order.deleteforever');
-    });
-    Route::resource('order',OrderController::class);
+        // route customer
+        Route::group(['prefix'=>'customer'],function(){
+            Route::get('/trash',[CustomerController::class,'trash'])->name('customer.trash');
+            Route::get('/restore/{id}',[CustomerController::class,'restore'])->name('customer.restore');
+            Route::get('/deleteforever/{id}',[CustomerController::class,'deleteforever'])->name('customer.deleteforever');
+        });
+        Route::resource('customer',CustomerController::class);
 
-    Route::group(['prefix'=>'ordersdetail'],function(){
-        Route::get('/trash',[OrdersDetailController::class,'trash'])->name('ordersdetail.trash');
-        Route::get('/restore/{id}',[OrdersDetailController::class,'restore'])->name('ordersdetail.restore');
-        Route::get('/deleteforever/{id}',[OrdersDetailController::class,'deleteforever'])->name('ordersdetail.deleteforever');
-    });
-    Route::resource('ordersdetail',OrdersDetailController::class);
+        // route order
+        Route::group(['prefix'=>'order'],function(){
+            Route::get('/trash',[OrderController::class,'trash'])->name('order.trash');
+            Route::get('/restore/{id}',[OrderController::class,'restore'])->name('order.restore');
+            Route::get('/deleteforever/{id}',[OrderController::class,'deleteforever'])->name('order.deleteforever');
+        });
+        Route::resource('order',OrderController::class);
 
-    // Route::group(['prefix'=>'user'],function(){
-        //     Route::get('/trash',[UserController::class,'trash'])->name('user.trash');
-        //     Route::get('/restore/{id}',[UserController::class,'restore'])->name('user.restore');
-        //     Route::get('/deleteforever/{id}',[UserController::class,'deleteforever'])->name('user.deleteforever');
-        //     Route::get('login',[UserController::class,'login'])->name('user.login');
-        //     Route::post('checkLogin',[UserController::class,'checkLogin'])->name('user.checkLogin');
-        //     Route::get('register',[UserController::class,'register'])->name('user.register');
-        //     Route::post('checkRegister',[UserController::class,'checkRegister'])->name('user.checkRegister');
-        // });
-        // Route::resource('user',UserController::class);
+        // route order detail
+        Route::group(['prefix'=>'orderdetail'],function(){
+            Route::get('/', [OrderDetailController::class, 'index'])->name('orderdetail.index');
+            Route::get('/create/{order_id}', [OrderDetailController::class, 'create'])->name('orderdetail.create');
+            Route::post('/store', [OrderDetailController::class, 'store'])->name('orderdetail.store');
+            Route::get('/show/{id}', [OrderDetailController::class, 'show'])->name('orderdetail.show');
+            Route::get('/edit/{id}', [OrderDetailController::class, 'edit'])->name('orderdetail.edit');
+            Route::put('/update/{id}', [OrderDetailController::class, 'update'])->name('orderdetail.update');
+            Route::delete('/destroy/{id}', [OrderDetailController::class, 'destroy'])->name('orderdetail.destroy');
+            Route::get('/trash',[OrderDetailController::class,'trash'])->name('orderdetail.trash');
+            Route::get('/restore/{id}',[OrderDetailController::class,'restore'])->name('orderdetail.restore');
+            Route::get('/deleteforever/{id}',[OrderDetailController::class,'deleteforever'])->name('orderdetail.deleteforever');
+        });
+        // Route::resource('orderdetail',OrderDetailController::class);
+
+        // route user
+        Route::group(['prefix'=>'user'],function(){
+            Route::get('/trash',[UserController::class,'trash'])->name('user.trash');
+            Route::get('/restore/{id}',[UserController::class,'restore'])->name('user.restore');
+            Route::get('/deleteforever/{id}',[UserController::class,'deleteforever'])->name('user.deleteforever');
+        });
+        Route::resource('user',UserController::class);
+    
+    });

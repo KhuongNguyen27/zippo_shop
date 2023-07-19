@@ -12,7 +12,12 @@ class Product extends Model
     protected $table = 'products';
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsTo(Category::class, 'category_id', 'id')->withTrashed();
+        
+    }
+    public function orderdetail()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
         
     }
 }

@@ -21,14 +21,15 @@ class StoreCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->request);
         return [
             'image' => 'required',
             'name' => 'required',
             'day_of_birth' => 'required|date',
             'address' => 'required',
-            'email' => 'required|unique:customer,email|email', // unique phải truyền tên cột để kiểm tra
+            'email' => 'required|unique:customers,email|email', // unique phải truyền tên cột để kiểm tra
             'gender' => 'required|numeric',
-            'phone' => 'required|unique:customer,phone|numeric', // unique phải truyền tên cột để kiểm tra
+            'phone' => 'required|unique:customers', // unique phải truyền tên cột để kiểm tra
             'password' => 'required',
             'repeatpassword' => 'required|same:password'
         ];
