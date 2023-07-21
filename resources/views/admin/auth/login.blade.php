@@ -1,82 +1,70 @@
 @include('admin.include.header')
-<body class="bg-gradient-primary">
-    <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
 
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                    </div>
-                                    <form class="user" method="post" action="{{ route('auth.checkLogin') }}">
-                                        {{ csrf_field() }}
-                                        @if (Session::has('login-fail'))
-                                        <div class="login-fail">
-                                            <p class="alert alert-danger">{{ Session::get('login-fail') }}</p>
-                                        </div>
-                                        @endif
-                                        @if (Session::has('register-true'))
-                                        <div class="register-true">
-                                            <p class="alert alert-primary">{{ Session::get('register-true') }}</p>
-                                        </div>
-                                        @endif
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" name="email"
-                                                placeholder="Enter Email Address..." value="{{ old('email') }}">
-                                            @error('email')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                name="password" placeholder="Password">
-                                            @error('password')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value='Login'>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
-                                    </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('auth.register') }}">Create an Account!</a>
-                                    </div>
-                                </div>
+<body class="bg-dark">
+    <div class="sufee-login d-flex align-content-center flex-wrap">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-logo">
+                    <a href="index.html">
+                        <img class="align-content" src="{{ asset('admin/images/logo.png') }}" alt="">
+                    </a>
+                </div>
+                <div class="login-form">
+                    <form method="post" action="{{ route('auth.checklogin') }}">
+                        {{ csrf_field() }}
+                        @if (Session::has('login-fail'))
+                        <div class="login-fail">
+                            <p class="alert alert-danger">{{ Session::get('login-fail') }}</p>
+                        </div>
+                        @endif
+                        @if (Session::has('register-true'))
+                        <div class="register-true">
+                            <p class="alert alert-primary">{{ Session::get('register-true') }}</p>
+                        </div>
+                        @endif
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <input type="email" class="form-control" name='email' value="{{ old('email') }}"
+                                placeholder="Email">
+                            @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name='password' placeholder="Password">
+                            @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Remember Me
+                            </label>
+                            <label class="pull-right">
+                                <a href="#">Forgotten Password?</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+                        <div class="social-login-content">
+                            <div class="social-button">
+                                <button type="button" class="btn social facebook btn-flat btn-addon mb-3"><i
+                                        class="ti-facebook"></i>Sign in with facebook</button>
+                                <button type="button" class="btn social twitter btn-flat btn-addon mt-2"><i
+                                        class="ti-twitter"></i>Sign in with twitter</button>
                             </div>
                         </div>
-                    </div>
+                        <div class="register-link m-t-15 text-center">
+                            <p>Don't have account ? <a href="#"> Sign Up Here</a></p>
+                        </div>
+                    </form>
                 </div>
-
             </div>
-
         </div>
-
     </div>
+
     @include('admin.include.footer')
+
 </body>
 
 </html>

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->text('image');
             $table->string('name');
-            $table->text('description');
-            $table->unsignedBigInteger('category_id');
+            $table->string('slug')->nullable();
+            $table->foreignId('category_id')->constrained('categories');
             $table->tinyInteger('status')->default(0);
             $table->bigInteger('quantity');
             $table->bigInteger('price');
@@ -24,7 +24,8 @@ return new class extends Migration
             $table->integer('selled')->nullable();
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories');
+            // $table->unsignedBigInteger('category_id');
+            // $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

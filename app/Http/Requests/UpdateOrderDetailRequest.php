@@ -21,7 +21,7 @@ class UpdateOrderDetailRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd($this->request);
+        // dd($this->request);
         return [
             'order_id' => 'required|numeric',
             'product_id' => 'required|numeric',

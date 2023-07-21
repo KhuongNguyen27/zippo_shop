@@ -23,7 +23,7 @@ class UpdateOrderRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|numeric',
-            'note' => 'required',
+            'description' => 'required',
             'date_ship' => 'required|date',
         ];
     }

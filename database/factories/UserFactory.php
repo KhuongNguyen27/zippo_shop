@@ -17,6 +17,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'image' => fake()->imageUrl(640,480),
             'name' => fake()->name,
             'email' => fake()->email,
             'password' => bcrypt('123456'),

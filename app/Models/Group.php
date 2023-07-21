@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     use HasFactory;
-    protected $table="groups";
+    protected $table='groups';
     public function user()
     {
-        return $this->hasMany(User::class, 'group_id', 'id');
+        return $this->hasMany(User::class, 'group_id', 'id')->withTrashed();
         
     }
 }

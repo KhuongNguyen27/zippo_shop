@@ -1,72 +1,111 @@
-<?php 
-$domain = url()->current();
-// var_dump(explode(':8000/', $domain));
-?>
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-    </button>
-    <form action="{{ $domain }}/search" method="get"
-        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="search" class="form-control bg-light border-0 small" placeholder="Search" name='search'
-                value='Search for...'>
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
+<header id="header" class="header">
+    <div class="top-left">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="./"><img src="{{ asset('admin/images/logo.png') }}" alt="Logo"></a>
+            <a class="navbar-brand hidden" href="./"><img src="{{ asset('admin/images/logo2.png') }}" alt="Logo"></a>
+            <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+        </div>
+    </div>
+    <div class="top-right">
+        <div class="header-menu">
+            <div class="header-left">
+                <button class="search-trigger"><i class="fa fa-search"></i></button>
+                <div class="form-inline">
+                    <form class="search-form">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                        <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                    </form>
+                </div>
+
+                <div class="dropdown for-notification">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        <span class="count bg-danger">3</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="notification">
+                        <p class="red">You have 3 Notification</p>
+                        <a class="dropdown-item media" href="#">
+                            <i class="fa fa-check"></i>
+                            <p>Server #1 overloaded.</p>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <i class="fa fa-info"></i>
+                            <p>Server #2 overloaded.</p>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <i class="fa fa-warning"></i>
+                            <p>Server #3 overloaded.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown for-message">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-envelope"></i>
+                        <span class="count bg-primary">4</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="message">
+                        <p class="red">You have 4 Mails</p>
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar"
+                                    src="{{ asset('admin/images/avatar/1.jpg') }}"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Jonathan Smith</span>
+                                <span class="time float-right">Just now</span>
+                                <p>Hello, this is an example msg</p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar"
+                                    src="{{ asset('admin/images/avatar/2.jpg') }}"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Jack Sanders</span>
+                                <span class="time float-right">5 minutes ago</span>
+                                <p>Lorem ipsum dolor sit amet, consectetur</p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar"
+                                    src="{{ asset('admin/images/avatar/3.jpg') }}"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Cheryl Wheeler</span>
+                                <span class="time float-right">10 minutes ago</span>
+                                <p>Hello, this is an example msg</p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar"
+                                    src="{{ asset('admin/images/avatar/4.jpg') }}"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Rachel Santos</span>
+                                <span class="time float-right">15 minutes ago</span>
+                                <p>Lorem ipsum dolor sit amet, consectetur</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-area dropdown float-right">
+                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <img class="user-avatar rounded-circle" src="{{ asset('admin/images/admin.jpg') }}"
+                        alt="User Avatar">
+                </a>
+
+                <div class="user-menu dropdown-menu">
+                    <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
+
+                    <a class="nav-link" href="#"><i class="fa fa-bell-o"></i>Notifications <span
+                            class="count">13</span></a>
+
+                    <a class="nav-link" href="#"><i class="fa fa-cog"></i>Settings</a>
+
+                    <a class="nav-link" href="{{ route('auth.logout') }}"><i class="fa fa-power-off"></i>Logout</a>
+                </div>
             </div>
         </div>
-    </form>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown no-arrow d-sm-none">
-            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                            aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li>
-        <div class="topbar-divider d-none d-sm-block"></div>
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                <img class="img-profile rounded-circle" src="{{ asset('admin/img/undraw_posting_photo.svg') }}">
-            </a>  
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Report
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('auth.logout')}}">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-            </div>
-        </li>
-
-    </ul>
-</nav>
+    </div>
+</header>

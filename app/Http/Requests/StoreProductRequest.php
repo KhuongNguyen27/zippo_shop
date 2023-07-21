@@ -21,11 +21,11 @@ class StoreProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->request);
         return [
             'image' => 'required',
             'name' => 'required',
-            'description' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'discount' => 'numeric'

@@ -44,7 +44,7 @@ class CustomerController extends Controller
         if ($request->hasFile($fieldName)) {
             $get_img = $request->file($fieldName);
             $path = 'storage/customer/';
-            $new_name_img = $path.rand(1,100).$get_img->getClientOriginalName();
+            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
             $get_img->move($path,$new_name_img);
             $customer->image = $path.$new_name_img;
         } 

@@ -24,7 +24,6 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'image' => 'required',
         ];
     }
 }

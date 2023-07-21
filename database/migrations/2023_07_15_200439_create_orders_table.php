@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->date('date_ship');
-            $table->text('note');
+            $table->text('description');
             $table->text('total')->nullable();
             $table->timestamps();
             $table->softDeletes();

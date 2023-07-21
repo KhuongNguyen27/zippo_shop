@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\AuthController;
+use App\Models\User;   
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,9 +29,11 @@ use App\Http\Controllers\AuthController;
 //     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 //     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 // });
-
+    Route::get('/',function(){
+        return redirect()->route('order.index');
+    });    
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
-    Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
+    Route::post('/checklogin',[AuthController::class,'checkLogin'])->name('auth.checklogin');
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
 
@@ -90,5 +93,5 @@ use App\Http\Controllers\AuthController;
             Route::get('/deleteforever/{id}',[UserController::class,'deleteforever'])->name('user.deleteforever');
         });
         Route::resource('user',UserController::class);
-    
+        Route::resource('group',GroupController::class);
     });

@@ -8,7 +8,6 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Http\Requests\UpdateOrderDetailRequest;
 use App\Http\Requests\StoreOrderDetailRequest;
-use Illuminate\Support\Facades\DB;
 
 
 class OrderDetailController extends Controller
@@ -28,11 +27,7 @@ class OrderDetailController extends Controller
     public function create(String $order_id)
     {
         $products = Product::get();
-        $max_quantities = DB::table('products')
-        ->select('id', DB::raw('max(quantity) as max_quantity'))
-        ->groupBy('id')
-        ->get();
-        return view('admin.orderdetail.create',compact(['products','order_id','max_quantities']));
+        return view('admin.orderdetail.create',compact(['products','order_id']));
     }
 
     /**
@@ -40,7 +35,6 @@ class OrderDetailController extends Controller
      */
     public function store(StoreOrderDetailRequest $request)
     {
-        dd($request);
         $detail = new OrderDetail();
         $detail->order_id = $request->order_id;
         $detail->product_id  = $request->product_id ;
@@ -124,7 +118,7 @@ class OrderDetailController extends Controller
             $orderdetail = OrderDetail::withTrashed()->find($id);
             $orderdetail->restore();
             alert()->success('Restore order detail success');
-            return redirect()->route('orderdetail.index');
+            return redirect()->route('order.show',$id);
         } catch (\Exception $e) {
             // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');

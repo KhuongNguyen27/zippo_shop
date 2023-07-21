@@ -39,7 +39,6 @@ class ProductController extends Controller
         $product->price = $request->price; 
         $product->quantity = $request->quantity; 
         $product->discount = $request->discount; 
-        $product->description = $request->description; 
         $product->selled = 0;
         $product->status = 0;
         if ($product->quantity > 0) {
@@ -49,7 +48,7 @@ class ProductController extends Controller
         if ($request->hasFile($fieldName)) {
             $get_img = $request->file($fieldName);
             $path = 'storage/product/';
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+            $new_name_img = $request->name.$get_img->getClientOriginalName();
             $get_img->move($path,$new_name_img);
             $product->image = $path.$new_name_img;
         }
@@ -88,7 +87,6 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->quantity = $request->quantity;
         $product->discount = $request->discount;
-        $product->description = $request->description;
         $product->status = 0;
         if ($product->quantity > 0) {
             $product->status = 1;
@@ -132,11 +130,11 @@ class ProductController extends Controller
             $softs = Product::withTrashed()->find($id);
             $softs->restore();
             alert()->success('Restore product success');
-            return back();
+            return redirect()->route('product.index');
         } catch (\Exception $e) {
             // Log::error($e->getMessage());
             alert()->warning('Have problem! Please try again late');
-            return redirect()->route('product.index');
+            return back();
         }
     }
     function deleteforever(String $id){

@@ -9,7 +9,6 @@ use App\Models\Customer;
 use Carbon\Carbon;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
-use Illuminate\Support\Facades\DB;
 
 
 class OrderController extends Controller 
@@ -20,12 +19,9 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('customer','orderdetail')->paginate(3);
-        $max_quantities = DB::table('products')
-        ->select('id', DB::raw('max(quantity) as max_quantity'))
-        ->groupBy('id')
-        ->get();
+     
 
-        return view('admin.order.index',compact(['orders','max_quantity']));
+        return view('admin.order.index',compact(['orders']));
     }
 
     /**
@@ -45,7 +41,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->customer_id = $request->customer_id;
         $order->date_ship = $request->date_ship;
-        $order->note = $request->note;
+        $order->description = $request->description;
         $order->save();
         alert()->success('Success created');
         return redirect()->route('orderdetail.create',$order->id);
@@ -78,7 +74,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->customer_id = $request->customer_id;
         $order->date_ship = $request->date_ship;
-        $order->note = $request->note;
+        $order->description = $request->description;
         $order->updated_at = Carbon::now();
         $order->save();
         alert()->success('Success updated');

@@ -26,7 +26,7 @@ class UpdateCustomerRequest extends FormRequest
             'name' => 'required',
             'day_of_birth' => 'required|date',
             'address' => 'required',
-            'email' => 'required|email', // unique phải truyền tên cột để kiểm tra
+            'email' => 'required|email|different:old_email_column', // unique phải truyền tên cột để kiểm tra
             'gender' => 'required|numeric',
             'phone' => 'required', // unique phải truyền tên cột để kiểm tra
             'password' => 'required',

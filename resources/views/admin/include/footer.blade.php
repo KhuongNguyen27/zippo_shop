@@ -1,27 +1,39 @@
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Contact &reg; <a href="https://www.facebook.com/profile.php?id=100013306712347">Facebook </a></span>
+<footer class="site-footer">
+    <div class="footer-inner bg-white">
+        <div class="row">
+            <div class="col-sm-6">
+                Copyright &copy; 2018 Ela Admin
+            </div>
+            <div class="col-sm-6 text-right">
+                Designed by <a href="https://colorlib.com">Colorlib</a>
+            </div>
         </div>
     </div>
 </footer>
-<!-- End of Footer -->
-<script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="{{ asset('admin/assets/js/main.js') }}"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/datatables.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/buttons.bootstrap.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/jszip.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/vfs_fonts.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/buttons.print.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/lib/data-table/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/init/datatables-init.js') }}"></script>
 
-<!-- Page level plugins -->
-<script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
-
-<!-- Page level custom scripts -->
-<script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
-<script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script>
 CKEDITOR.replace('description');
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#bootstrap-data-table-export').DataTable();
+});
 </script>

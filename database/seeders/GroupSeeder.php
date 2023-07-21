@@ -13,7 +13,7 @@ class GroupSeeder extends Seeder
      */
     public function run(): void
     {
-        $positions = ['programmer', 'manager', 'user'];
+        $positions = ['Programmer', 'Manager', 'User'];
         foreach ($positions as $position) {
             DB::table('groups')->insert([
                 'name' => $position,

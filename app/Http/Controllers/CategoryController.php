@@ -38,14 +38,6 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
-        $fieldName = 'image';
-        if($request->hasFile($fieldName)){
-            $get_img = $request->file($fieldName);
-            $path = 'storage/category/';
-            $new_name_img = $request->name.$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $category->image = $path.$new_name_img;
-        }
         $category->save();
         alert()->success('Success created');
         return redirect()->route('category.index');
@@ -79,18 +71,6 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->name = $request->name;
         $category->description = $request->description;
-        $fieldName = 'image';
-        if($request->hasFile($fieldName)){
-            $path = $category->image;
-            if(file_exists($path)){
-                unlink($path);
-            }
-            $get_img = $request->file($fieldName);
-            $path = 'storage/category/';
-            $new_name_img = $request->email.$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $category->image = $path.$new_name_img;
-        }
         $category->save();
         alert()->success('Success updated');
         return redirect()->route('category.index');
@@ -100,7 +80,7 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      */
     function trash(){
-        $softs = Category::onlyTrashed()->paginate(3);
+        $softs = Category::onlyTrashed()->paginate(2);
         return view('admin.category.trash',compact('softs'));
     }
     function destroy(String $id)
@@ -125,10 +105,6 @@ class CategoryController extends Controller
     function deleteforever(String $id){
         try {
             $softs = Category::withTrashed()->find($id);
-            $path = $softs->image;
-            if (file_exists($path)) {
-                unlink($path);
-            }
             $softs->forceDelete();
             alert()->success('Destroy category success');
             return redirect()->back();
