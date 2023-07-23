@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GroupController;
 use App\Models\User;   
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ use App\Models\User;
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
 
-    Route::middleware(['auth'])->group(function(){
+    Route::middleware(['auth','preventhistory'])->group(function(){
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
         // route category
         Route::group(['prefix'=>'category'],function(){
@@ -93,5 +94,9 @@ use App\Models\User;
             Route::get('/deleteforever/{id}',[UserController::class,'deleteforever'])->name('user.deleteforever');
         });
         Route::resource('user',UserController::class);
+        
+        Route::group(['prefix'=>'group'],function(){
+            Route::get('/permission',[OrderController::class,'permission'])->name('group.permission');
+        });
         Route::resource('group',GroupController::class);
     });

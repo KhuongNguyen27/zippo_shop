@@ -14,20 +14,20 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->text('image');
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('name')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('group_id')->nullable();
             $table->tinyInteger('gender');
-            $table->date('day_of_birth');
-            $table->text('address');
-            $table->text('phone');
-            $table->foreignId('group_id')->constrained('groups')->nullable();;
+            $table->date('day_of_birth')->nullable();
+            $table->text('address')->nullable();
+            $table->text('phone')->nullable();
+            // $table->foreignId('group_id')->constrained('groups')->nullable();
             $table->text('branch')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            // $table->unsignedBigInteger('group_id');
-            // $table->foreign('group_id')->references('id')->on('groups');
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 

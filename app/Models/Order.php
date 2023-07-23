@@ -16,9 +16,9 @@ class Order extends Model
         return $this->belongsTo(Customer::class, 'customer_id', 'id')->withTrashed();
         
     }
-    public function orderdetail()
+    public function product()
     {
-        return $this->hasMany(OrderDetail::class, 'order_id', 'id')->withTrashed();
+        return $this->belongsToMany(Product::class)->withTrashed();
         
     }
 }

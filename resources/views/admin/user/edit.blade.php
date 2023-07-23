@@ -12,25 +12,16 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control form-control-user" name="name"
-                            placeholder="Nguyen Huu Khuong">
-                        @error('name')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control form-control-user" value=" {{ $user->name }}" readonly>
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <label class="form-label">Day of birth</label>
-                        <input type="date" class="form-control form-control-user" name="day_of_birth"
-                            placeholder="day_of_birth">
-                        @error('day_of_birth')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control form-control-user" value=" {{ $user->day_of_birth }} " readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Address</label>
-                    <input type="text" class="form-control form-control-user" name="address"
-                        placeholder="Trieu Thuong - Trieu Phong - Quang Tri">
+                    <input type="text" class="form-control form-control-user" value="{{ $user->address }}" readonly>
                     @error('address')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -57,28 +48,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Phone</label>
-                    <input type="text" class="form-control form-control-user" name="phone" placeholder="0947964***">
-                    @error('phone')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Position</label>
-                    <select name="group_id"  class="form-control form-control-user">
-                        <option>Select position</option>
-                        <option value="3">Staff</option>
-                        <option value="2">Manager</option>
-                    </select>
-                    @error('group_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Branch</label>
-                    <input type="text" class="form-control form-control-user" name="branch" placeholder="Dong Ha">
-                    @error('branch')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="text" class="form-control form-control-user" value="{{ $user->phone }}" readonly>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">

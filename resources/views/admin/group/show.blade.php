@@ -1,16 +1,15 @@
 @extends('admin.master')
 @section('content')
-@include('sweetalert::alert')
 <div class="content">
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">User Table</strong>
+                        <strong class="card-title">Group Table</strong>
                     </div>
                     <div class="card-body">
-                        <a href="{{ route('user.create') }}" class='btn btn-primary'>Create</a>
+                        <a href="{{ route('group.create') }}" class='btn btn-primary'>Create</a>
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>

@@ -15,9 +15,9 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id')->withTrashed();
         
     }
-    public function orderdetail()
+    public function order()
     {
-        return $this->hasMany(OrderDetail::class, 'product_id', 'id');
+        return $this->belongsToMany(Order::class)->withTrashed();
         
     }
 }

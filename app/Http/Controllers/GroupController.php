@@ -12,8 +12,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $group = Group::get();
-        $user = User::get();
+        $groups = Group::with('user')->get();
+        return view('admin.group.index',compact('groups'));
     }
 
     /**
@@ -21,7 +21,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.group.create');
     }
 
     /**
@@ -29,7 +29,11 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $group = new Group();
+        $group->name = $request->name;
+        $group->save();
+        alert()->success('Created Success');
+        return redirect()->route('group.index');
     }
 
     /**
@@ -37,7 +41,8 @@ class GroupController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $users = User::where('group_id',$id)->paginate(3);
+        return view('admin.group.show',compact('users'));
     }
 
     /**
@@ -45,7 +50,7 @@ class GroupController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -61,6 +66,8 @@ class GroupController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Group::destroy($id);
+        alert()->success('Delete Success');
+        return redirect()->route('group.index');
     }
 }

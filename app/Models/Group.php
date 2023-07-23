@@ -11,7 +11,11 @@ class Group extends Model
     protected $table='groups';
     public function user()
     {
-        return $this->hasMany(User::class, 'group_id', 'id')->withTrashed();
+        return $this->hasMany(User::class, 'group_id', 'id');
         
+    }
+    public function role()
+    {
+        return $this->belongsToMany(Role::class);
     }
 }

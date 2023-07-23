@@ -11,7 +11,7 @@
                 </div>
                 <div class="login-form">
                     <form method="post" action="{{ route('auth.checklogin') }}">
-                        {{ csrf_field() }}
+                        @csrf
                         @if (Session::has('login-fail'))
                         <div class="login-fail">
                             <p class="alert alert-danger">{{ Session::get('login-fail') }}</p>

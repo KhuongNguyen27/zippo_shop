@@ -21,16 +21,9 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd($this->request);
         return [
-            'name' => 'required',
-            'day_of_birth' => 'required|date',
-            'address' => 'required',
             'email' => 'required|unique:users|email',
             'gender' => 'required|numeric',
-            'phone' => 'required|unique:users',
-            'group_id' => 'required|numeric',
-            'branch' => 'required',
             'password' => 'required',
             'repeatpassword' => 'required|same:password',
         ];

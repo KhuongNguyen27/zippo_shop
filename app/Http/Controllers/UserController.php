@@ -14,6 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny',User::class);
         $users = User::with('group')->paginate(3);
         $param = [
             'users' => $users,
@@ -80,12 +81,8 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request,String $id)
     {
         $user = User::find($id);
-        $user->name = $request->name;
-        $user->day_of_birth = $request->day_of_birth;
-        $user->address = $request->address;
         $user->email = $request->email;
         $user->gender = $request->gender;
-        $user->phone = $request->phone;
         $user->password = bcrypt($request->password);
         $fieldName = "image";
         if ($request->hasFile($fieldName)) {

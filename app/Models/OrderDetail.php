@@ -10,14 +10,4 @@ class OrderDetail extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'orderdetails';
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'order_id', 'id')->withTrashed();
-        
-    }
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id', 'id')->withTrashed();
-        
-    }
 }
