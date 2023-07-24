@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Order Table</strong>
+                        <strong class="card-title">Order Detail Table</strong>
                     </div>
                     <div class="card-body">
                         <a href="{{ route('order.index') }}" class='btn btn-primary'>Back</a>

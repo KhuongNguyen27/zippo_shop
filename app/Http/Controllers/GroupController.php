@@ -12,8 +12,15 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::with('user')->get();
-        return view('admin.group.index',compact('groups'));
+        try {
+            //code...
+            $this->authorize('viewAny',Group::class);
+            $groups = Group::with('user')->get();
+            return view('admin.group.index',compact('groups'));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -21,7 +28,14 @@ class GroupController extends Controller
      */
     public function create()
     {
-        return view('admin.group.create');
+        try {
+            $this->authorize('create',Group::class);
+            return view('admin.group.create');
+            //code...
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -41,8 +55,15 @@ class GroupController extends Controller
      */
     public function show(string $id)
     {
-        $users = User::where('group_id',$id)->paginate(3);
-        return view('admin.group.show',compact('users'));
+        try {
+            //code...
+            $this->authorize('view',Group::class);
+            $users = User::where('group_id',$id)->paginate(3);
+            return view('admin.group.show',compact('users'));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -66,8 +87,15 @@ class GroupController extends Controller
      */
     public function destroy(string $id)
     {
-        Group::destroy($id);
-        alert()->success('Delete Success');
-        return redirect()->route('group.index');
+        try {
+            //code...
+            $this->authorize('delete',Group::class);
+            Group::destroy($id);
+            alert()->success('Delete Success');
+            return redirect()->route('group.index');
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 }

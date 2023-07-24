@@ -14,8 +14,14 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::paginate(3);
-        return view('admin.customer.index',compact(['customers']));
+        try {
+            $this->authorize('viewAny',Customer::class);
+            $customers = Customer::paginate(3);
+            return view('admin.customer.index',compact(['customers']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        }  
     }
 
     /**
@@ -23,7 +29,14 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('admin.customer.create');
+        try {
+            //code...
+            $this->authorize('create',Customer::class);
+            return view('admin.customer.create');
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -66,8 +79,15 @@ class CustomerController extends Controller
      */
     public function edit(String $id)
     {
-        $customer = Customer::find($id);
-        return view('admin.customer.edit',compact(['customer']));
+        try {
+            //code...
+            $customer = Customer::find($id);
+            $this->authorize('update',$customer);
+            return view('admin.customer.edit',compact(['customer']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -92,7 +112,7 @@ class CustomerController extends Controller
             }
             $path = 'storage/customer/';
             $get_img = $request->file($fieldName);
-            $new_name_img = $request->email.$get_img->getClientOriginalName();
+            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
             $get_img->move($path,$new_name_img);
             $customer->image = $path.$new_name_img;
         } 
@@ -106,22 +126,37 @@ class CustomerController extends Controller
      */
     public function trash()
     {
-        $customers = Customer::onlyTrashed()->paginate(3);
-        return view('admin.customer.trash',compact(['customers']));
+        try {
+            //code...
+            $this->authorize('viewTrash',Customer::class);
+            $customers = Customer::onlyTrashed()->paginate(3);
+            return view('admin.customer.trash',compact(['customers']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(String $id)
     {
-        $customer = Customer::find($id);
-        $customer->delete();
-        alert()->success('Success move to trash');
-        return back();
+        try {
+            //code...
+            $customer = Customer::find($id);
+            $this->authorize('delete',$customer);
+            $customer->delete();
+            alert()->success('Success move to trash');
+            return back();
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     function restore(String $id){
         try {
             $customer = Customer::withTrashed()->find($id);
+            $this->authorize('restore',$customer);
             $customer->restore();
             alert()->success('Restore customer success');
             return redirect()->route('customer.index');
@@ -134,6 +169,7 @@ class CustomerController extends Controller
     function deleteforever(String $id){
         try {
             $customer = Customer::withTrashed()->find($id);
+            $this->authorize('forceDelete',$customer);
             $path = $customer->image;
             if (file_exists($path)) {
                 unlink($path);

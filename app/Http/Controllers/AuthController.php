@@ -23,7 +23,7 @@ class AuthController extends Controller
         if ($user && Hash::check($request->password, $user->password) && Auth::attempt($arr)) {
             $request->session()->push('login', true);
             alert()->success('Success Login');
-            return redirect()->route('category.index');
+            return redirect()->route('home');
         } else {
             $message = 'Login failed. Please try again';
             $request->session()->flash('login-fail', $message);
@@ -62,6 +62,6 @@ class AuthController extends Controller
         $user->save();
         $message = "Successfully register";
         $request->session()->flash('register-true',$message);
-        return redirect()->route('staff.login');
+        return redirect()->route('home');
     }
 }

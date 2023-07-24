@@ -31,8 +31,8 @@ use App\Models\User;
 //     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 // });
     Route::get('/',function(){
-        return redirect()->route('order.index');
-    });    
+        return view('admin.master');
+    })->name('home');    
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
     Route::post('/checklogin',[AuthController::class,'checkLogin'])->name('auth.checklogin');
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');

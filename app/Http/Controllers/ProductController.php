@@ -15,8 +15,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->paginate(3);
-        return view('admin.product.index',compact('products'));
+        try {
+            //code...
+            $this->authorize('viewAny',Product::class);
+            $products = Product::with('category')->paginate(3);
+            return view('admin.product.index',compact('products'));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -24,8 +31,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-        return view('admin.product.create',compact('categories'));
+        try {
+            //code...
+            $this->authorize('create',Product::class);
+            $categories = Category::get();
+            return view('admin.product.create',compact('categories'));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -70,9 +84,16 @@ class ProductController extends Controller
      */
     public function edit(String $id)
     {
-        $product = Product::find($id);
-        $categories = Category::get();
-        return view('admin.product.edit',compact(['product','categories']));
+        try {
+            //code...
+            $product = Product::find($id);
+            $this->authorize('update',$product);
+            $categories = Category::get();
+            return view('admin.product.edit',compact(['product','categories']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -109,25 +130,40 @@ class ProductController extends Controller
     }
     public function trash()
     {
-        $products = Product::onlyTrashed()->paginate(3);
-        $param = [
-            'products' => $products,
-        ];
-        return view('admin.product.trash',$param);
+        try {
+            //code...
+            $this->authorize('viewTrash',Product::class);
+            $products = Product::onlyTrashed()->paginate(3);
+            $param = [
+                'products' => $products,
+            ];
+            return view('admin.product.trash',$param);
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(String $id)
     {
-        $product = Product::find($id);
-        $product->delete();
-        alert()->success('Success move to trash');
-        return back();
+        try {
+            //code...
+            $product = Product::find($id);
+            $this->authorize('delete',$product);
+            $product->delete();
+            alert()->success('Success move to trash');
+            return back();
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     function restore(String $id){
         try {
             $softs = Product::withTrashed()->find($id);
+            $this->authorize('restore',$softs);
             $softs->restore();
             alert()->success('Restore product success');
             return redirect()->route('product.index');
@@ -140,6 +176,7 @@ class ProductController extends Controller
     function deleteforever(String $id){
         try {
             $softs = Product::withTrashed()->find($id);
+            $this->authorize('forceDelete',$softs);
             $path = $softs->image;
             if (file_exists($path)) {
                 unlink($path);

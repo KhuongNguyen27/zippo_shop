@@ -18,10 +18,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('customer','orderdetail')->paginate(3);
-     
-
-        return view('admin.order.index',compact(['orders']));
+        try {
+            //code...
+            $this->authorize('viewAny',Order::class);
+            $orders = Order::with('customer','orderdetail')->paginate(3);
+            return view('admin.order.index',compact(['orders']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -29,8 +34,15 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $customers = Customer::get();
-        return view('admin.order.create',compact(['customers']));
+        try {
+            //code...
+            $this->authorize('create',Order::class);
+            $customers = Customer::get();
+            return view('admin.order.create',compact(['customers']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -52,8 +64,16 @@ class OrderController extends Controller
      */
     public function show(String $id)
     {
-        $orderdetails =  OrderDetail::where('order_id',$id)->paginate(3);
-        return view('admin.orderdetail.index',compact(['orderdetails','id']));
+        try {
+            //code...
+            $order = Order::findOrFail($id);
+            $this->authorize('view', $order);
+            $orderdetails =  OrderDetail::where('order_id',$id)->paginate(3);
+            return view('admin.orderdetail.index',compact(['orderdetails','id']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -61,9 +81,16 @@ class OrderController extends Controller
      */
     public function edit(String $id)
     {
-        $customers = Customer::get();
-        $order = Order::find($id);
-        return view('admin.order.edit',compact(['customers','order']));
+        try {
+            //code...
+            $customers = Customer::get();
+            $order = Order::find($id);
+            $this->authorize('update',$order);
+            return view('admin.order.edit',compact(['customers','order']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     
     /**
@@ -86,19 +113,35 @@ class OrderController extends Controller
      */ 
     public function trash()
     {
-        $orders = Order::onlyTrashed()->with('customer')->paginate(3);
-        return view('admin.order.trash',compact(['orders']));
+        try {
+            //code...
+            $this->authorize('viewTrash',Order::class);
+            $orders = Order::onlyTrashed()->with('customer')->paginate(3);
+            return view('admin.order.trash',compact(['orders']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     public function destroy(String $id)
     {
-        $order = Order::find($id);
-        $order->delete();
-        alert()->success('Success move to trash');
-        return back();
+        try {
+            //code...
+            $order = Order::find($id);
+            $this->authorize('delete',$order);
+            $order->delete();
+            alert()->success('Success move to trash');
+            return back();
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     function restore(String $id){
         try {
+            //
             $order = Order::withTrashed()->find($id);
+            $this->authorize('restore',$order);
             $order->restore();
             alert()->success('Restore order success');
             return redirect()->route('order.index');
@@ -111,6 +154,7 @@ class OrderController extends Controller
     function deleteforever(String $id){
         try {
             $order = Order::withTrashed()->find($id);
+            $this->authorize('forceDelete',$order);
             $order->forceDelete();
             alert()->success('Destroy order success');
             return back();

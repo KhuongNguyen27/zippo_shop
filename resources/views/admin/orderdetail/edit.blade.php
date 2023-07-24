@@ -23,7 +23,7 @@ var products = @json($products -> keyBy('id') -> map(function($product) {
                 <div class="form-group">
                     <label class="form-label">Product</label>
                     <select class="form-control form-control-user" name="product_id" id="product-select">
-                        <option>Select product...</option>
+                        <option value="{{ $detail->product->id}}"> {{ $detail->product->id}} : {{ $detail->product->name}}</option>
                         @foreach($products as $product)
                         <option value="{{ $product->id }}">{{ $product->id }} : {{ $product->name }}</option>
                         @endforeach

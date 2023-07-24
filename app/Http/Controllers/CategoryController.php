@@ -16,20 +16,32 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->authorize('create',Category::class);
-        $categories = Category::paginate(3);
-        $param = [
-            'categories' => $categories
-        ];   
-        return view('admin.category.index',$param);
+        try {
+            $this->authorize('viewAny',Category::class);
+            $categories = Category::paginate(3);
+            $param = [
+                'categories' => $categories
+            ];   
+            return view('admin.category.index',$param);
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        }
+       
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('admin.category.create');
+    {    
+        try {
+            $this->authorize('create',Category::class);
+            return view('admin.category.create');
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        }     
     }
 
     /**
@@ -58,11 +70,17 @@ class CategoryController extends Controller
      */
     public function edit(String $id)
     {
-        $category = Category::find($id);
-        $param = [
-            'category' => $category,
-        ];
-        return view('admin.category.edit',$param);
+        try {
+            $this->authorize('update',Category::class);
+            $category = Category::find($id);
+            $param = [
+                'category' => $category,
+            ];
+            return view('admin.category.edit',$param);
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -82,18 +100,31 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      */
     function trash(){
-        $softs = Category::onlyTrashed()->paginate(2);
-        return view('admin.category.trash',compact('softs'));
+        try {
+            $this->authorize('viewTrash',Category::class);
+            $softs = Category::onlyTrashed()->paginate(2);
+            return view('admin.category.trash',compact('softs'));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        }   
     }
     function destroy(String $id)
     {
-        $category = Category::find($id);
-        $category->delete();
-        alert()->success('Success move to trash');
-        return back();
+        try {
+            $this->authorize('delete',Category::class);
+            $category = Category::find($id);
+            $category->delete();
+            alert()->success('Success move to trash');
+            return back();
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     function restore(String $id){
         try {
+            $this->authorize('restore',Category::class);
             $softs = Category::withTrashed()->find($id);
             $softs->restore();
             alert()->success('Restore category success');
@@ -106,6 +137,7 @@ class CategoryController extends Controller
     }
     function deleteforever(String $id){
         try {
+            $this->authorize('forceDelete',Category::class);
             $softs = Category::withTrashed()->find($id);
             $softs->forceDelete();
             alert()->success('Destroy category success');

@@ -14,12 +14,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny',User::class);
-        $users = User::with('group')->paginate(3);
-        $param = [
-            'users' => $users,
-        ];
-        return view('admin.user.index',$param);
+        try {
+            //code...
+            $this->authorize('viewAny',User::class);
+            $users = User::with('group')->paginate(3);
+            $param = [
+                'users' => $users,
+            ];
+            return view('admin.user.index',$param);
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -27,7 +33,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        try {
+            //code...
+            $this->authorize('create',User::class);
+            return view('admin.user.create');
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -71,8 +84,15 @@ class UserController extends Controller
      */
     public function edit(String $id)
     {
-        $user = User::find($id);
-        return view('admin.user.edit',compact(['user']));
+        try {
+            //code...
+            $this->authorize('update',User::class);
+            $user = User::find($id);
+            return view('admin.user.edit',compact(['user']));
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -106,6 +126,6 @@ class UserController extends Controller
      */
     public function destroy(String $id)
     {
-        //
+        
     }
 }

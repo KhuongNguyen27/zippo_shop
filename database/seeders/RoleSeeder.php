@@ -14,8 +14,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $table = ['Category','Product','Customer','Order','Orderdetail','Group'];
-        $action = ['viewAny','view','create','update','delete','restore','forceDelete'];
+        $table = ['Category','Product','Customer','Order','Orderdetail','Group','User'];
+        $action = ['viewAny','view','create','update','viewTrash','delete','restore','forceDelete'];
         foreach ($table as $name) {
             foreach ($action as $active) {
             DB::table('roles')->insert(
