@@ -1,33 +1,40 @@
 @extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
-<div class="content">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">User Table</strong>
-                    </div>
-                    <div class="card-body">
+<div class="orders">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Product Table </h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
                         <a href="{{ route('user.create') }}" class='btn btn-primary'>Create</a>
-                        <table class="table table-striped table-bordered">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                      <th class="serial">#</th>
+                                    <th>Avatar</th>
                                     <th>Name</th>
                                     <th>Gender</th>
                                     <th>Phone</th>
                                     <th>Position</th>
                                     <th>Branch</th>
-                                    <th>Action</th>
+                                    <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
+                                    <td class="serial">{{ $user->id }}</td>
+                                    <td class="avatar">
+                                        <div class="round-img">
+                                            <a href="#"><img class="rounded-circle" src="{{ asset($user->image) }}"
+                                                    alt=""></a>
+                                        </div>
+                                    </td>
+                                    <td><span class="name">{{ $user->name }}</span> </td>
                                     <td>
                                         @switch($user->gender)
                                         @case('0')
@@ -51,12 +58,6 @@
                                         <div class="d-flex">
                                             <a href="{{ route('user.edit', $user->id) }}"
                                                 class='btn btn-primary'>Edit</a>
-                                            <!-- <form action="{{ route('user.destroy',$user->id) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger"
-                                                    onclick="return confirm('Are you sure?')">Delete</button>
-                                            </form> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -66,10 +67,10 @@
                         <div class="pagination">
                             {{ $users->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
-                    </div>
+                    </div> <!-- /.table-stats -->
                 </div>
-            </div>
-        </div>
-    </div><!-- .animated -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
 </div>
 @endsection

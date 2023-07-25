@@ -16,7 +16,7 @@ class CustomerController extends Controller
     {
         try {
             $this->authorize('viewAny',Customer::class);
-            $customers = Customer::paginate(3);
+            $customers = Customer::paginate(5);
             return view('admin.customer.index',compact(['customers']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
@@ -129,7 +129,7 @@ class CustomerController extends Controller
         try {
             //code...
             $this->authorize('viewTrash',Customer::class);
-            $customers = Customer::onlyTrashed()->paginate(3);
+            $customers = Customer::onlyTrashed()->paginate(5);
             return view('admin.customer.trash',compact(['customers']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');

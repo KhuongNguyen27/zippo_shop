@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
 
-
 class OrderController extends Controller 
 {
     /**
@@ -21,7 +20,7 @@ class OrderController extends Controller
         try {
             //code...
             $this->authorize('viewAny',Order::class);
-            $orders = Order::with('customer','orderdetail')->paginate(3);
+            $orders = Order::with('customer','orderdetail')->paginate(5);
             return view('admin.order.index',compact(['orders']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');

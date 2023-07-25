@@ -23,9 +23,12 @@ var products = @json($products -> keyBy('id') -> map(function($product) {
                 <div class="form-group">
                     <label class="form-label">Product</label>
                     <select class="form-control form-control-user" name="product_id" id="product-select">
-                        <option value="{{ $detail->product->id}}"> {{ $detail->product->id}} : {{ $detail->product->name}}</option>
+                        <option value="{{ $detail->product->id}}"> {{ $detail->product->id}} :
+                            {{ $detail->product->name}}</option>
                         @foreach($products as $product)
-                        <option value="{{ $product->id }}">{{ $product->id }} : {{ $product->name }}</option>
+                            @if($product->quantity > 0)
+                                <option value="{{ $product->id }}">{{ $product->id }} : {{ $product->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                     @error('product_id')
@@ -42,7 +45,7 @@ var products = @json($products -> keyBy('id') -> map(function($product) {
         </div>
     </div>
 </form>
-<!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+<!--<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
 <script>
 document.querySelector('.quantity').addEventListener('input', function() {
     var productName = document.getElementById('product-select').value;

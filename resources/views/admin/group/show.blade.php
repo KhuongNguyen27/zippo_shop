@@ -9,7 +9,7 @@
                         <strong class="card-title">Group Table</strong>
                     </div>
                     <div class="card-body">
-                        <a href="{{ route('group.create') }}" class='btn btn-primary'>Create</a>
+                        <a href="{{ route('group.index') }}" class='btn btn-primary'>Back</a>
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -23,7 +23,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($group->user as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
@@ -62,9 +62,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="pagination">
-                            {{ $users->appends(request()->query())->links('pagination::bootstrap-4') }}
-                        </div>
                     </div>
                 </div>
             </div>

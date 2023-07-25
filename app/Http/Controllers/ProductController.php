@@ -18,7 +18,7 @@ class ProductController extends Controller
         try {
             //code...
             $this->authorize('viewAny',Product::class);
-            $products = Product::with('category')->paginate(3);
+            $products = Product::with('category')->paginate(5);
             return view('admin.product.index',compact('products'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
@@ -133,7 +133,7 @@ class ProductController extends Controller
         try {
             //code...
             $this->authorize('viewTrash',Product::class);
-            $products = Product::onlyTrashed()->paginate(3);
+            $products = Product::onlyTrashed()->paginate(5);
             $param = [
                 'products' => $products,
             ];

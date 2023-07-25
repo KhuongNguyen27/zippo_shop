@@ -26,7 +26,9 @@ var products = @json($products -> keyBy('id') -> map(function($product) {
                     <select class="form-control form-control-user" name="product_id" id="product-select">
                         <option>Select product...</option>
                         @foreach($products as $product)
-                        <option value="{{ $product->id }}">{{ $product->id }} : {{ $product->name }}</option>
+                            @if($product->quantity > 0)
+                            <option value="{{ $product->id }}">{{ $product->id }} : {{ $product->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                     @error('product_id')

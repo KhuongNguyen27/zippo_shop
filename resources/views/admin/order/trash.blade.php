@@ -1,23 +1,26 @@
 @extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
-<div class="content">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Order Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped table-bordered">
+<div class="orders">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Orders </h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
+                        <a href="{{ route('order.create') }}" class='badge btn-primary'>Create</a>
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th class="serial">#</th>
+                                    <th class="avatar">Avatar</th>
                                     <th>Customer</th>
                                     <th>Created at</th>
-                                    <th>Date ship</th>
                                     <th>Total</th>
+                                    <th>Status</th>
+                                    <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,21 +34,29 @@
                                 @endphp
                                 @endforeach
                                 <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->customer->name }}</td>
+                                    <td class="serial">{{ $order->id }}</td>
+                                    <td class="avatar">
+                                        <div class="round-img">
+                                            <a href="#"><img class="rounded-circle"
+                                                    src="{{ asset( $order->customer->image) }}" alt=""></a>
+                                        </div>
+                                    </td>
+                                    <td><span class="name">{{ $order->customer->name }}</span> </td>
                                     <td>{{ $order->created_at }}</td>
-                                    <td>{{ $order->date_ship }}</td>
                                     <td>{{ number_format($total) .' VND'}}</td>
+                                    <td>
+                                        <span class="badge badge-complete">Complete</span>
+                                    </td>
                                     <td>
                                         <div class="d-flex">
                                             <div class="d-flex">
                                                 <a href="{{ route('order.restore', $order->id) }}"
                                                     onclick="return confirm('Do u want to restore record?');"
-                                                    class="btn btn-primary">Restore
+                                                    class="badge btn-primary">Restore
                                                 </a>
                                                 <a href="{{ route('order.deleteforever', $order->id) }}"
                                                     onclick="return confirm('Do u want to delete forever record?');"
-                                                    class="btn btn-danger">
+                                                    class="badge btn-danger">
                                                     Detroy</a>
                                             </div>
                                         </div>
@@ -54,14 +65,13 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="{{ route('order.index') }}" class='btn btn-primary'>Back</a>
                         <div class="pagination">
                             {{ $orders->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
-                    </div>
+                    </div> <!-- /.table-stats -->
                 </div>
-            </div>
-        </div>
-    </div><!-- .animated -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
 </div>
 @endsection

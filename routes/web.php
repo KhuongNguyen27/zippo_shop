@@ -30,17 +30,15 @@ use App\Models\User;
 //     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 //     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 // });
-    Route::get('/',function(){
-        return view('admin.master');
-    })->name('home');    
+    Route::get('/',[AuthController::class,'login'])->name('home');
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
-    Route::post('/checklogin',[AuthController::class,'checkLogin'])->name('auth.checklogin');
+    Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
-
+    
     Route::middleware(['auth','preventhistory'])->group(function(){
-        Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
         // route category
+        Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
         Route::group(['prefix'=>'category'],function(){
             Route::get('/trash',[CategoryController::class,'trash'])->name('category.trash');
             Route::get('/restore/{id}',[CategoryController::class,'restore'])->name('category.restore');
@@ -96,7 +94,8 @@ use App\Models\User;
         Route::resource('user',UserController::class);
         
         Route::group(['prefix'=>'group'],function(){
-            Route::get('/permission',[OrderController::class,'permission'])->name('group.permission');
+            Route::get('/permission/{id}',[GroupController::class,'permission'])->name('group.permission');
+            Route::post('/grantpermission',[GroupController::class,'grantpermission'])->name('group.grantpermission');
         });
         Route::resource('group',GroupController::class);
     });

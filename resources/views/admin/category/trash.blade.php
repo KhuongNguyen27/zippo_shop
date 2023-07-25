@@ -1,54 +1,52 @@
 @extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
-<div class="content">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Category Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped table-bordered">
+<div class="orders">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Category Trash Table</h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
+                        <a href="{{ route('category.index') }}" class='badge btn-primary'>Back</a>
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th class="serial">#</th>
                                     <th>Type</th>
-                                    <th>Description</th>
-                                    <th>Action</th>
+                                    <th>Description at</th>
+                                    <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($softs as $soft)
                                 <tr>
-                                    <td>{{ $soft->id }}</td>
-                                    <td>{{ $soft->name }}</td>
+                                    <td class="serial">{{ $soft->id }}</td>
+                                    <td><span class="name">{{ $soft->name }}</span> </td>
                                     <td>{{ $soft->description }}</td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('category.restore', $soft->id) }}"
                                                 onclick="return confirm('Do u want to restore record?');"
-                                                class="btn btn-primary">Restore
-                                            </a>
+                                                class='badge btn-primary'>Restore</a>
                                             <a href="{{ route('category.deleteforever', $soft->id) }}"
                                                 onclick="return confirm('Do u want to delete forever record?');"
-                                                class="btn btn-danger">
-                                                Detroy</a>
+                                                class="badge btn-danger">Detroy</a>
                                         </div>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="{{ route('category.index') }}" class='btn btn-primary'>Back</a>
                         <div class="pagination">
                             {{ $softs->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
-                    </div>
+                    </div> <!-- /.table-stats -->
                 </div>
-            </div>
-        </div>
-    </div><!-- .animated -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
 </div>
 @endsection

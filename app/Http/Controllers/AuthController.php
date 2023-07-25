@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Session as CheckLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
     function login(){
+        // $this->logout();
         return view('admin.auth.login');    
     }
     function checkLogin(Request $request) {
@@ -21,19 +24,23 @@ class AuthController extends Controller
         ];
         $user = User::where('email',$request->email)->first();
         if ($user && Hash::check($request->password, $user->password) && Auth::attempt($arr)) {
-            $request->session()->push('login', true);
+            $check = CheckLogin::where('user_id',$user->id)->first();
+            if ($check) {
+                CheckLogin::where('user_id',$user->id)->delete();
+            }
+            $request->session()->put('login', true);
             alert()->success('Success Login');
-            return redirect()->route('home');
+            return redirect()->route('order.index');
         } else {
             $message = 'Login failed. Please try again';
-            $request->session()->flash('login-fail', $message);
-            return back();
+            // $request->session()->flash('login-fail', $message);
+            return back()->with('login-fail',$message);
         }
     }
     public function logout(Request $request)
     {
         // Xóa Session login, đưa người dùng về trạng thái chưa đăng nhập
-        $request->session()->flush();
+        Auth::logout();
         return redirect()->route('auth.login');
     }
     public function register()

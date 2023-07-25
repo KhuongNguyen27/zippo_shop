@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         try {
             $this->authorize('viewAny',Category::class);
-            $categories = Category::paginate(3);
+            $categories = Category::paginate(5);
             $param = [
                 'categories' => $categories
             ];   
@@ -102,7 +102,7 @@ class CategoryController extends Controller
     function trash(){
         try {
             $this->authorize('viewTrash',Category::class);
-            $softs = Category::onlyTrashed()->paginate(2);
+            $softs = Category::onlyTrashed()->paginate(5);
             return view('admin.category.trash',compact('softs'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');

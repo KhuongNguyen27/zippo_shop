@@ -153,7 +153,7 @@ class OrderDetailController extends Controller
     function restore(String $id){
         try {
             //code..
-            $order = Order::findOrFail($id);
+            // $order = Order::findOrFail($id);
             $orderdetail = OrderDetail::withTrashed()->find($id);
             // dd($orderdetail->order_id);
             $this->authorize('restore',$orderdetail);

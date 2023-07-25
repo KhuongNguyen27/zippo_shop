@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Group;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Group_Role;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -10,6 +12,26 @@ class GroupController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function permission(String $id)
+    {
+        $roles = Role::orderBy('group_name')->get()->groupBy('group_name');
+        return view('admin.group.permission',compact(['roles','id']));
+    }
+    function grantpermission(Request $request)
+    {
+        $group_id = $request->id;
+        Group_Role::where('group_id',$group_id)->delete();
+        $roles_id = $request->name;
+        // dd($roles_id);
+        foreach ($roles_id as $role_id) {
+            $group_role = new Group_Role();
+            $group_role->role_id = $role_id;
+            $group_role->group_id = $group_id;
+            $group_role->save();
+        }
+        alert()->success('Grant Permission Success');
+        return redirect()->route('group.index');
+    }
     public function index()
     {
         try {
@@ -57,9 +79,10 @@ class GroupController extends Controller
     {
         try {
             //code...
-            $this->authorize('view',Group::class);
-            $users = User::where('group_id',$id)->paginate(3);
-            return view('admin.group.show',compact('users'));
+            $group = Group::with('user')->findOrFail($id);
+            // dd($group);
+            $this->authorize('view',$group);
+            return view('admin.group.show',compact('group'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
             return back();

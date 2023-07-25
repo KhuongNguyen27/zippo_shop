@@ -1,17 +1,17 @@
 @extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
-<div class="content">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Order Detail Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <a href="{{ route('order.index') }}" class='btn btn-primary'>Back</a>
-                        <table class="table table-striped table-bordered">
+<div class="orders">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Orders </h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
+                        <a href="{{ route('order.index') }}" class='badge btn-primary'>Back</a>
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Order</th>
@@ -21,7 +21,7 @@
                                     <th>Quantity</th>
                                     <th>Total</th>
                                     <th>Created at</th>
-                                    <th>Action</th>
+                                    <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,11 +38,11 @@
                                         <div class="d-flex">
                                             <a href="{{ route('orderdetail.restore', $detail->id) }}"
                                                 onclick="return confirm('Do u want to restore record?');"
-                                                class="btn btn-primary">Restore
+                                                class="badge btn-primary">Restore
                                             </a>
                                             <a href="{{ route('orderdetail.deleteforever', $detail->id) }}"
                                                 onclick="return confirm('Do u want to delete forever record?');"
-                                                class="btn btn-danger">
+                                                class="badge btn-danger">
                                                 Detroy</a>
                                         </div>
                                     </td>
@@ -53,10 +53,10 @@
                         <div class="pagination">
                             {{ $orderdetails->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
-                    </div>
+                    </div> <!-- /.table-stats -->
                 </div>
-            </div>
-        </div>
-    </div><!-- .animated -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
 </div>
 @endsection

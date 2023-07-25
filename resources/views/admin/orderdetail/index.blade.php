@@ -1,18 +1,18 @@
 @extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
-<div class="content">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Order Detail Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <a href="{{ route('order.index') }}" class='btn btn-primary'>Back</a>
-                        <a href="{{ route('orderdetail.create',$id) }}" class='btn btn-primary'>Create</a>
-                        <table class="table table-striped table-bordered">
+<div class="orders">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Orders </h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
+                        <a href="{{ route('order.index') }}" class='badge btn-primary'>Back</a>
+                        <a href="{{ route('orderdetail.create',$id) }}" class='badge btn-primary'>Create</a>
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Order</th>
@@ -22,7 +22,7 @@
                                     <th>Quantity</th>
                                     <th>Total</th>
                                     <th>Created at</th>
-                                    <th>Action</th>
+                                    <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,11 +38,11 @@
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('orderdetail.edit', $detail->id) }}"
-                                                class='btn btn-primary'>Edit</a>
+                                                class='badge btn-primary'>Edit</a>
                                             <form action="{{ route('orderdetail.destroy',$detail->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-danger"
+                                                <button type="submit" class="badge btn-danger"
                                                     onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
                                         </div>
@@ -54,10 +54,10 @@
                         <div class="pagination">
                             {{ $orderdetails->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
-                    </div>
+                    </div> <!-- /.table-stats -->
                 </div>
-            </div>
-        </div>
-    </div><!-- .animated -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
 </div>
 @endsection

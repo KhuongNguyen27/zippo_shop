@@ -1,25 +1,26 @@
 @extends('admin.master')
 @section('content')
 @include('sweetalert::alert')
-<div class="content">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Order Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <a href="{{ route('order.create') }}" class='btn btn-primary'>Create</a>
-                        <table class="table table-striped table-bordered">
+<div class="orders">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Orders </h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
+                        <a href="{{ route('order.create') }}" class='badge btn-primary'>Create</a>
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th class="serial">#</th>
+                                    <th class="avatar">Avatar</th>
                                     <th>Customer</th>
                                     <th>Created at</th>
-                                    <th>Date ship</th>
                                     <th>Total</th>
-                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,24 +33,32 @@
                                             $total += $detail->total;
                                         @endphp
                                     @endforeach
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->customer->name }}</td>
+                                <tr >
+                                    <td class="serial">{{ $order->id }}</td>
+                                    <td class="avatar">
+                                        <div class="round-img">
+                                            <a href="#"><img class="rounded-circle" src="{{ asset( $order->customer->image) }}"
+                                                    alt=""></a>
+                                        </div>
+                                    </td>
+                                    <td><span class="name">{{ $order->customer->name }}</span> </td>
                                     <td>{{ $order->created_at }}</td>
-                                    <td>{{ $order->date_ship }}</td>
                                     <td>{{ number_format($total) .' VND'}}</td>
+                                    <td>
+                                        <span class="badge badge-complete">Complete</span>
+                                    </td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('order.edit', $order->id) }}"
-                                                class='btn btn-primary'>Edit</a>
+                                                class='badge btn-primary'>Edit</a>
                                             <form action="{{ route('order.destroy',$order->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-danger"
+                                                <button type="submit" class="badge btn-danger"
                                                     onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
                                             <a href="{{ route('order.show', $order->id) }}"
-                                                class='btn btn-primary'>Detail</a>
+                                                class='badge btn-primary'>Detail</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -59,10 +68,10 @@
                         <div class="pagination">
                             {{ $orders->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
-                    </div>
+                    </div> <!-- /.table-stats -->
                 </div>
-            </div>
-        </div>
-    </div><!-- .animated -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
 </div>
 @endsection

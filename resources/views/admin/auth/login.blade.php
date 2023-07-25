@@ -10,7 +10,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form method="post" action="{{ route('auth.checklogin') }}">
+                    <form method="post" action="{{ route('auth.checkLogin') }}">
                         @csrf
                         @if (Session::has('login-fail'))
                         <div class="login-fail">
@@ -26,9 +26,9 @@
                             <label>Email address</label>
                             <input type="email" class="form-control" name='email' value="{{ old('email') }}"
                                 placeholder="Email">
-                            @error('email')
+                            @foreach($errors->get('email') as $message)
                             <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
+                            @endforeach
                         </div>
                         <div class="form-group">
                             <label>Password</label>
