@@ -25,20 +25,20 @@
                             </thead>
                             <tbody>
                                 @foreach ($orders as $order)
-                                    @php
-                                        $total = 0;
-                                    @endphp
-                                    @foreach ($order->orderdetail as $detail)
-                                        @php
-                                            $total += $detail->total;
-                                        @endphp
-                                    @endforeach
-                                <tr >
+                                @php
+                                $total = 0;
+                                @endphp
+                                @foreach ($order->orderdetail as $detail)
+                                @php
+                                $total += $detail->total;
+                                @endphp
+                                @endforeach
+                                <tr>
                                     <td class="serial">{{ $order->id }}</td>
                                     <td class="avatar">
                                         <div class="round-img">
-                                            <a href="#"><img class="rounded-circle" src="{{ asset( $order->customer->image) }}"
-                                                    alt=""></a>
+                                            <a href="#"><img class="img-thumbnail" width="200"
+                                                    src="{{ asset( $order->customer->image) }}" alt=""></a>
                                         </div>
                                     </td>
                                     <td><span class="name">{{ $order->customer->name }}</span> </td>
