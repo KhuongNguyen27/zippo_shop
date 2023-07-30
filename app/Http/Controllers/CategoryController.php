@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         try {
             $this->authorize('viewAny',Category::class);
-            $categories = Category::paginate(5);
+            $categories = Category::orderBy('id', 'DESC')->paginate(5);
             $param = [
                 'categories' => $categories
             ];   
@@ -97,7 +97,18 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $category->name = $request->name;
-        $category->description = $request->description;
+        $fieldName = 'image';
+        if ($request->hasFile($fieldName)) {
+            $path = $category->image;
+            if (file_exists($path)) {
+                unlink($path);
+            }
+            $get_img = $request->file($fieldName);
+            $path = 'storage/category/';
+            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+            $get_img->move($path,$new_name_img);
+            $category->image = $path.$new_name_img;
+        }
         $category->save();
         alert()->success('Success updated');
         return redirect()->route('category.index');
@@ -109,8 +120,8 @@ class CategoryController extends Controller
     function trash(){
         try {
             $this->authorize('viewTrash',Category::class);
-            $softs = Category::onlyTrashed()->paginate(5);
-            return view('admin.category.trash',compact('softs'));
+            $categories = Category::orderBy('id', 'DESC')->onlyTrashed()->paginate(5);
+            return view('admin.category.trash',compact('categories'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
             return back();
@@ -132,8 +143,8 @@ class CategoryController extends Controller
     function restore(String $id){
         try {
             $this->authorize('restore',Category::class);
-            $softs = Category::withTrashed()->find($id);
-            $softs->restore();
+            $category = Category::withTrashed()->find($id);
+            $category->restore();
             alert()->success('Restore category success');
             return redirect()->route('category.index');
         } catch (\Exception $e) {

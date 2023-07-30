@@ -21,17 +21,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($softs as $soft)
+                                @foreach ($categories as $category)
                                 <tr>
-                                    <td class="serial">{{ $soft->id }}</td>
-                                    <td><span class="name">{{ $soft->name }}</span> </td>
-                                    <td>{{ $soft->description }}</td>
+                                    <td class="serial">{{ $category->id }}</td>
+                                    <td><span class="name">{{ $category->name }}</span> </td>
+                                    <td><img src="{{asset($category->image)}}" alt=""></td>
                                     <td>
-                                        <div class="d-flex">
-                                            <a href="{{ route('category.restore', $soft->id) }}"
+                                        <div class="d-flex justify-content-center">
+                                            <a href="{{ route('category.restore', $category->id) }}"
                                                 onclick="return confirm('Do u want to restore record?');"
                                                 class='badge btn-primary'>Restore</a>
-                                            <a href="{{ route('category.deleteforever', $soft->id) }}"
+                                            <a href="{{ route('category.deleteforever', $category->id) }}"
                                                 onclick="return confirm('Do u want to delete forever record?');"
                                                 class="badge btn-danger">Detroy</a>
                                         </div>
@@ -41,7 +41,7 @@
                             </tbody>
                         </table>
                         <div class="pagination">
-                            {{ $softs->appends(request()->query())->links('pagination::bootstrap-4') }}
+                            {{ $categories->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
                     </div> <!-- /.table-stats -->
                 </div>

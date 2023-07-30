@@ -44,7 +44,7 @@
                                     <td><span class="name">{{ $order->customer->name }}</span> </td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>{{ number_format($total) .' VND'}}</td>
-                                    <td>
+                                    <td>s
                                         <span class="badge badge-complete">Complete</span>
                                     </td>
                                     <td>

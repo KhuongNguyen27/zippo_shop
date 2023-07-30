@@ -21,6 +21,7 @@
                                     <th>Quantity</th>
                                     <th>Discount</th>
                                     <th>Price</th>
+                                    <th>Status</th>
                                     <th>Selled</th>
                                     <th class='text-center'>Action</th>
                                 </tr>
@@ -40,6 +41,9 @@
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->discount.'%' }}</td>
                                     <td>{{ number_format($product->price) .' VND'}}</td>
+                                    <td>
+                                        @if($product->status == 0)
+                                    </td>
                                     <td>{{ $product->selled }}</td>
                                     <td>
                                         <div class="d-flex">

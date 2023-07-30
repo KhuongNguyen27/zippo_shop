@@ -25,9 +25,9 @@
                                 <tr>
                                     <td class="serial">{{ $category->id }}</td>
                                     <td><span class="name">{{ $category->name }}</span> </td>
-                                    <td><img src="{{ asset($category->image) }}"></td>
+                                    <td><img src="{{asset($category->image)}}" alt=""></td>
                                     <td>
-                                        <div class="d-flex">
+                                        <div class="d-flex justify-content-center">
                                             <a href="{{ route('category.edit', $category->id) }}"
                                                 class='badge btn-primary'>Edit</a>
                                             <form action="{{ route('category.destroy',$category->id) }}" method="post">
