@@ -26,19 +26,21 @@ ex : #90th, #batluakhac, # 12congiap
 2. categories => danh mục sản phẩm
 - id ( mã số ) => int
 - name_category => text
-- description => text
+- image => text
+- deleted_at => timestamp
 ex : Zippo Classics - Phổ Thông, Bật Lửa Zippo 12 Con Giáp, Bật Lửa Zippo Replica
 
 3. products => sản phẩm
 - id => int
 - image => text
-- name_product => text 
+- name => text 
+- slug => text 
 - description => text
 - category_id => text
 - quantity => bigInteger
 - price => float
-- discount_price => float 
-- views/selled => int 
+- discount => float 
+- selled => int 
 - status => tinyint
 - created_at => timestamp
 - updated_at => timestamp
@@ -46,25 +48,24 @@ ex : Zippo Classics - Phổ Thông, Bật Lửa Zippo 12 Con Giáp, Bật Lửa 
 
 4. customers => khách hàng
 - id => bigint unsigned
-- name => varchar(255)
 - image  => varchar(255)
+- name => varchar(255)
 - day_of_birth  => date
 - gender  => string
 - address => varchar(255)
 - email => varchar(255)
-- password => varchar(255)
 - phone => varchar(255)
+- password => varchar(255)
 - created_at => timestamp
 - updated_at => timestamp
-- delete_at => timestamp
 
 5. orders => hóa đơn
 - id => bigint unsigned
 - customer_id => bigint unsigned
-- total => bigint 
-- created_at => timestamp
-- date_ship => date
 - note => text 
+- total => bigint 
+- date_ship => date
+- created_at => timestamp
 - updated_id => timestamp
 
 6. ordersdetail => chi tiết đơn hàng 
@@ -81,7 +82,10 @@ ex : Zippo Classics - Phổ Thông, Bật Lửa Zippo 12 Con Giáp, Bật Lửa 
 - name => varchar(255)
 - email => varchar(255)
 - gender => tinyInt
+- group_id => tinyInt
 - day_of_birth => date
+- address => text
+- phone => varchar(255)
 - password => varchar(255)
 - created_at => timestamp
 

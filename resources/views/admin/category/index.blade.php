@@ -16,7 +16,7 @@
                                 <tr>
                                     <th class="serial">#</th>
                                     <th>Type</th>
-                                    <th>Description at</th>
+                                    <th>Image</th>
                                     <th class='text-center'>Action</th>
                                 </tr>
                             </thead>
@@ -25,7 +25,7 @@
                                 <tr>
                                     <td class="serial">{{ $category->id }}</td>
                                     <td><span class="name">{{ $category->name }}</span> </td>
-                                    <td>{{ $category->description }}</td>
+                                    <td><img src="{{ asset($category->image) }}"></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('category.edit', $category->id) }}"

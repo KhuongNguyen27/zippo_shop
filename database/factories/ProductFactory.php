@@ -19,10 +19,11 @@ class ProductFactory extends Factory
         return [
             'image' => fake()->imageUrl(640, 480),
             'name' => fake()->name,
+            'description' => fake()->sentence,
             'category_id' => fake()->numberBetween($min = 1, $max = 10),
             'quantity' => fake()->numberBetween($min = 1, $max = 10),
-            'price' => fake()->numberBetween($min = 1000000, $max = 10000000),
             'discount' => fake()->numberBetween($min = 10, $max = 20),
+            'price' => fake()->numberBetween($min = 1000000, $max = 10000000),
             'selled' => '0'
         ];
     }

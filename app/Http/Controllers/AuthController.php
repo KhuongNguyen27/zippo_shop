@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     function login(){
-        // $this->logout();
         return view('admin.auth.login');    
     }
     function checkLogin(Request $request) {
@@ -23,17 +22,18 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
         $user = User::where('email',$request->email)->first();
-        if ($user && Hash::check($request->password, $user->password) && Auth::attempt($arr)) {
-            $check = CheckLogin::where('user_id',$user->id)->first();
+        if ($user) {
+            $check = CheckLogin::where('user_id', $user->id)->first();
             if ($check) {
-                CheckLogin::where('user_id',$user->id)->delete();
+                $check->delete();
             }
-            $request->session()->put('login', true);
+        }
+        if ($user && Hash::check($request->password, $user->password) && Auth::attempt($arr)) {
+            $request->session()->push('login', true);
             alert()->success('Success Login');
-            return redirect()->route('order.index');
+            return redirect()->route('category.index');
         } else {
             $message = 'Login failed. Please try again';
-            // $request->session()->flash('login-fail', $message);
             return back()->with('login-fail',$message);
         }
     }

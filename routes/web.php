@@ -30,6 +30,9 @@ use App\Models\User;
 //     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 //     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 // });
+    Route::get('test',function(){
+        return view('admin.include.content');
+    });
     Route::get('/',[AuthController::class,'login'])->name('home');
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
     Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');

@@ -51,7 +51,14 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->name;
-        $category->description = $request->description;
+        $fieldName = 'image';
+        if ($request->hasFile($fieldName)) {
+            $get_img = $request->file($fieldName);
+            $path = 'storage/category/';
+            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+            $get_img->move($path,$new_name_img);
+            $category->image = $path.$new_name_img;
+        }
         $category->save();
         alert()->success('Success created');
         return redirect()->route('category.index');

@@ -16,12 +16,11 @@ return new class extends Migration
             $table->text('image');
             $table->string('name');
             $table->date('day_of_birth');
+            $table->tinyInteger('gender');
             $table->text('address');
             $table->text('email');
-            $table->tinyInteger('gender');
             $table->text('phone');
             $table->text('password');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -16,16 +16,16 @@ return new class extends Migration
             $table->text('image');
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->foreignId('category_id')->constrained('categories');
-            $table->tinyInteger('status')->default(0);
+            $table->unsignedBigInteger('category_id');
+            $table->text('description');
             $table->bigInteger('quantity');
-            $table->bigInteger('price');
             $table->float('discount')->nullable();
+            $table->bigInteger('price');
+            $table->tinyInteger('status')->default(0);
             $table->integer('selled')->nullable();
             $table->softDeletes();
             $table->timestamps();
-            // $table->unsignedBigInteger('category_id');
-            // $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

@@ -10,17 +10,17 @@
             <div class="card-body card-block">
                 <div class="form-group">
                     <label class=" form-control-label">Name of category</label>
-                    <input type="text" class="is-valid form-control-success form-control" name="name"
+                    <input type="text" class="form-control" name="name"
                         value="{{ old('name') }}">
                     @error('name')
                     <div class="alert alert-danger mb-3 ">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class=" form-control-label">Description</label>
-                    <textarea type="text" class="is-invalid form-control" name="description"
-                        id="description">{{ old('description') }}</textarea>
-                    @error('description')
+                    <label class=" form-control-label">Image</label>
+                    <input type="file" class='form-control' name="image"
+                        value="{{ old('image') }}">
+                    @error('image')
                     <div class="alert alert-danger mb-3 ">{{ $message }}</div>
                     @enderror
                 </div>

@@ -20,13 +20,12 @@ class UserFactory extends Factory
             'image' => fake()->imageUrl(640,480),
             'name' => fake()->name,
             'email' => fake()->email,
-            'password' => bcrypt('123456'),
             'gender' =>  fake()->numberBetween($min = 0, $max = 2),
             'day_of_birth' => fake()->date(),
+            'group_id' => fake()->numberBetween($min = 1, $max = 3),
             'address' => fake()->address(),
             'phone' => fake()->phonenumber(),
-            'branch' => fake()->word(),
-            'group_id' => fake()->numberBetween($min = 1, $max = 3),
+            'password' => bcrypt('123456'),
         ];
     }
 }
