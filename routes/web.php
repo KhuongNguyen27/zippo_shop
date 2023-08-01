@@ -30,9 +30,6 @@ use App\Models\User;
 //     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 //     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 // });
-    Route::get('test',function(){
-        return view('admin.include.content');
-    });
     Route::get('/',[AuthController::class,'login'])->name('home');
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
     Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
@@ -40,8 +37,9 @@ use App\Models\User;
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
     
     Route::middleware(['auth','preventhistory'])->group(function(){
-        // route category
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
+        
+        // route category
         Route::group(['prefix'=>'category'],function(){
             Route::get('/trash',[CategoryController::class,'trash'])->name('category.trash');
             Route::get('/restore/{id}',[CategoryController::class,'restore'])->name('category.restore');
@@ -58,11 +56,6 @@ use App\Models\User;
         Route::resource('product',ProductController::class);
 
         // route customer
-        Route::group(['prefix'=>'customer'],function(){
-            Route::get('/trash',[CustomerController::class,'trash'])->name('customer.trash');
-            Route::get('/restore/{id}',[CustomerController::class,'restore'])->name('customer.restore');
-            Route::get('/deleteforever/{id}',[CustomerController::class,'deleteforever'])->name('customer.deleteforever');
-        });
         Route::resource('customer',CustomerController::class);
 
         // route order

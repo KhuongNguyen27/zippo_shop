@@ -26,7 +26,7 @@ var products = @json($products -> keyBy('id') -> map(function($product) {
                         <option value="{{ $detail->product->id}}"> {{ $detail->product->id}} :
                             {{ $detail->product->name}}</option>
                         @foreach($products as $product)
-                            @if($product->quantity > 0)
+                            @if($product->status == 1 && $product->quantity > 0)
                                 <option value="{{ $product->id }}">{{ $product->id }} : {{ $product->name }}</option>
                             @endif
                         @endforeach

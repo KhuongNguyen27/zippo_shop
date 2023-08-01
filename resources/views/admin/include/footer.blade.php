@@ -15,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+<script src="{{ asset('admin/assets/js/main.js') }}"></script>
 
 
 <script src="{{ asset('admin/assets/js/lib/data-table/datatables.min.js') }}"></script>
@@ -27,7 +28,6 @@
 <script src="{{ asset('admin/assets/js/lib/data-table/buttons.print.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/lib/data-table/buttons.colVis.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/init/datatables-init.js') }}"></script>
-
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script>
 CKEDITOR.replace('description');

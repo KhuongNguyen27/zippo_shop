@@ -65,17 +65,11 @@
                     <label class="form-label">Position</label>
                     <select name="group_id"  class="form-control form-control-user">
                         <option>Select position</option>
-                        <option value="3">Staff</option>
-                        <option value="2">Manager</option>
+                        @foreach($groups as $group)
+                        <option value="{{$group->id}}">{{$group->name}}</option>
+                        @endforeach
                     </select>
                     @error('group_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Branch</label>
-                    <input type="text" class="form-control form-control-user" value="{{ old('branch') }}" name="branch" placeholder="Dong Ha">
-                    @error('branch')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -99,14 +93,12 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Image</label>
-                    <label for="file-upload" class="file-upload-label">
-                        <input type="file" id="file-upload" name="image" accept="*" title=" ">
-                    </label>
+                        <input type="file" class="form-control" name="image" accept="*" title=" ">
                     @error('image')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <a href="{{ route('product.index') }}" class='btn btn-primary'>Back</a>
+                <a href="{{ route('product.index') }}" class='btn btn-secondary'>Back</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         try {
             $this->authorize('viewAny',Category::class);
-            $categories = Category::orderBy('id', 'DESC')->paginate(5);
+            $categories = Category::orderBy('id', 'DESC')->paginate(3);
             $param = [
                 'categories' => $categories
             ];   
@@ -120,7 +120,7 @@ class CategoryController extends Controller
     function trash(){
         try {
             $this->authorize('viewTrash',Category::class);
-            $categories = Category::orderBy('id', 'DESC')->onlyTrashed()->paginate(5);
+            $categories = Category::orderBy('id', 'DESC')->onlyTrashed()->paginate(3);
             return view('admin.category.trash',compact('categories'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');

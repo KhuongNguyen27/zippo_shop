@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -17,7 +18,7 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('viewAny',User::class);
-            $users = User::with('group')->paginate(3);
+            $users = User::orderby('group_id','ASC')->with('group')->paginate(3);
             $param = [
                 'users' => $users,
             ];
@@ -36,7 +37,8 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('create',User::class);
-            return view('admin.user.create');
+            $groups = Group::where('id','!=',1)->get();
+            return view('admin.user.create',compact(['groups']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
             return back();
@@ -56,7 +58,6 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->phone = $request->phone;
         $user->group_id = $request->group_id;
-        $user->branch = $request->branch;
         $user->password = bcrypt($request->password);
         $fieldName = "image";
         if ($request->hasFile($fieldName)) {

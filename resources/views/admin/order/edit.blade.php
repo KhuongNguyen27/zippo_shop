@@ -1,5 +1,6 @@
 @extends('admin.master')
 @section('content')
+@include('sweetalert::alert')
 <form action="{{ route('order.update',$order->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('put')
@@ -11,15 +12,7 @@
             <div class="card-body card-block">
                 <div class="form-group">
                     <label class="form-label">Customer</label>
-                    <select class="form-control form-control-user" name="customer_id" id="">
-                        <option value="{{ $order->customer_id }}" >{{ $order->customer_id }} : {{ $order->customer->name }}</option>
-                        @foreach($customers as $customer)
-                        <option value="{{ $customer->id }}">{{ $customer->id }} : {{ $customer->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('customer_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="text" value='{{$order->customer->name}}' class="form-control" readonly>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Date ship</label>
@@ -30,10 +23,20 @@
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Customer</label>
+                    <select class="form-control form-control-user" name="status" id="">
+                        <option value="0">In process..</option>
+                        <option value="1">Complete</option>
+                    </select>
+                    <div class="m-2"><i class="fst-italic">if u choose complete, u can't update order in the future</i></div>
+                    @error('status')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label class="form-label">Note</label>
-                    <textarea class="form-control form-control-user" id="description"
-                        name="description">{{ $order->description }}</textarea>
-                    @error('description')
+                    <textarea class="form-control form-control-user" name="note">{{ $order->note }}</textarea>
+                    @error('note')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>

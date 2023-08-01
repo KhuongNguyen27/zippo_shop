@@ -1,4 +1,5 @@
 @include('admin.include.header')
+@include('sweetalert::alert')
 <body class="bg-dark">
     <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">

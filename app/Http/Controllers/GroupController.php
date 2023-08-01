@@ -20,9 +20,8 @@ class GroupController extends Controller
     function grantpermission(Request $request)
     {
         $group_id = $request->id;
-        Group_Role::where('group_id',$group_id)->delete();
+        Group_Role::where('group_id', $group_id)->delete();
         $roles_id = $request->name;
-        // dd($roles_id);
         foreach ($roles_id as $role_id) {
             $group_role = new Group_Role();
             $group_role->role_id = $role_id;

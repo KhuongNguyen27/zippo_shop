@@ -1,11 +1,11 @@
 @include('admin.include.header')
-
+@include('sweetalert::alert')
 <body class="bg-dark">
     <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">
             <div class="login-content">
                 <div class="login-logo">
-                    <a href="index.html">
+                    <a href="{{ route('category.index') }}">
                         <img class="align-content" src="{{ asset('admin/images/logo.png') }}" alt="">
                     </a>
                 </div>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="register-link m-t-15 text-center">
-                            <p>Don't have account ? <a href="#"> Sign Up Here</a></p>
+                            <p>Don't have account ? <a href="{{route('auth.login')}}"> Sign Up Here</a></p>
                         </div>
                     </form>
                 </div>

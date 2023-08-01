@@ -9,21 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $table = 'orders';
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id')->withTrashed();
-        
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
     public function product()
     {
         return $this->belongsToMany(Product::class)->withTrashed();
-        
     }
     public function orderdetail()
     {
-        return $this->hasMany(orderdetail::class, 'order_id', 'id')->withTrashed();
-        
+        return $this->hasMany(orderdetail::class, 'order_id', 'id');
     }
 }

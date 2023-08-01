@@ -29,7 +29,6 @@ class StoreUserRequest extends FormRequest
             'gender' => 'required|numeric',
             'phone' => 'required|unique:users',
             'group_id' => 'required|numeric',
-            'branch' => 'required',
             'password' => 'required',
             'repeatpassword' => 'required|same:password',
         ];

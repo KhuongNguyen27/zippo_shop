@@ -18,7 +18,7 @@ class ProductController extends Controller
         try {
             //code...
             $this->authorize('viewAny',Product::class);
-            $products = Product::with('category')->paginate(5);
+            $products = Product::orderby('id','DESC')->with('category')->paginate(3);
             return view('admin.product.index',compact('products'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
@@ -51,10 +51,11 @@ class ProductController extends Controller
         $product->name = $request->name; 
         $product->category_id = $request->category_id; 
         $product->price = $request->price; 
+        $product->description = $request->description; 
         $product->quantity = $request->quantity; 
-        $product->discount = $request->discount; 
+        $product->discount = 0; 
         $product->selled = 0;
-        $product->status = 0;
+        $product->status = $request->status;
         if ($product->quantity > 0) {
             $product->status = 1;
         }
@@ -101,17 +102,13 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, String $id)
     {
-        // dd($request);
         $product = Product::find($id);
         $product->name = $request->name;
         $product->category_id = $request->category_id;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
         $product->discount = $request->discount;
-        $product->status = 0;
-        if ($product->quantity > 0) {
-            $product->status = 1;
-        }
+        $product->status = $request->status;
         $fieldName='image';
         if ($request->hasFile($fieldName)) {
             $path = $product->image;
@@ -133,7 +130,7 @@ class ProductController extends Controller
         try {
             //code...
             $this->authorize('viewTrash',Product::class);
-            $products = Product::onlyTrashed()->paginate(5);
+            $products = Product::onlyTrashed()->paginate(3);
             $param = [
                 'products' => $products,
             ];

@@ -16,7 +16,8 @@
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <label class="form-label">Day of birth</label>
-                        <input type="text" class="form-control form-control-user" value=" {{ $user->day_of_birth }} " readonly>
+                        <input type="text" class="form-control form-control-user" value=" {{ $user->day_of_birth }} "
+                            readonly>
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,14 +71,12 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Image</label>
-                    <label for="file-upload" class="file-upload-label">
-                        <input type="file" id="file-upload" name="image" accept="*" title=" ">
-                    </label>
+                    <input type="file" class="form-control" name="image" accept="*" title=" ">
                     @error('image')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <a href="{{ route('product.index') }}" class='btn btn-primary'>Back</a>
+                <a href="{{ route('product.index') }}" class='btn btn-info'>Back</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

@@ -16,7 +16,7 @@ class CustomerController extends Controller
     {
         try {
             $this->authorize('viewAny',Customer::class);
-            $customers = Customer::paginate(5);
+            $customers = Customer::orderby('id','DESC')->paginate(5);
             return view('admin.customer.index',compact(['customers']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
@@ -123,20 +123,6 @@ class CustomerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     */
-    public function trash()
-    {
-        try {
-            //code...
-            $this->authorize('viewTrash',Customer::class);
-            $customers = Customer::onlyTrashed()->paginate(5);
-            return view('admin.customer.trash',compact(['customers']));
-        } catch (\Exception $e) {
-            alert()->warning('Have problem! Please try again late');
-            return back();
-        } 
-    }
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(String $id)
@@ -152,35 +138,5 @@ class CustomerController extends Controller
             alert()->warning('Have problem! Please try again late');
             return back();
         } 
-    }
-    function restore(String $id){
-        try {
-            $customer = Customer::withTrashed()->find($id);
-            $this->authorize('restore',$customer);
-            $customer->restore();
-            alert()->success('Restore customer success');
-            return redirect()->route('customer.index');
-        } catch (\Exception $e) {
-            // Log::error($e->getMessage());
-            alert()->warning('Have problem! Please try again late');
-            return redirect()->route('customer.index');
-        }
-    }
-    function deleteforever(String $id){
-        try {
-            $customer = Customer::withTrashed()->find($id);
-            $this->authorize('forceDelete',$customer);
-            $path = $customer->image;
-            if (file_exists($path)) {
-                unlink($path);
-            }
-            $customer->forceDelete();
-            alert()->success('Destroy customer success');
-            return back();
-        } catch (\Exception $e) {
-            // Log::error($e->getMessage());
-            alert()->warning('Have problem! Please try again late');
-            return back();
-        }
     }
 }
