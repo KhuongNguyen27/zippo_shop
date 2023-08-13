@@ -23,7 +23,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Customer</label>
+                    <label class="form-label">Status</label>
                     <select class="form-control form-control-user" name="status" id="">
                         <option value="0">In process..</option>
                         <option value="1">Complete</option>
@@ -40,7 +40,7 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <a href="{{ route('order.index') }}" class='btn btn-primary'>Back</a>
+                <a href="{{ route('order.index') }}" class='btn btn-light'>Back</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

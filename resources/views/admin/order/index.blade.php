@@ -36,9 +36,9 @@
                             @endforeach
                             <tr class="table-warning">
                                 <td class="serial">{{ $order->id }}</td>
-                                <td class="avatar col-2">
+                                <td class="col-2">
                                     <div class="round-img">
-                                        <a href="#"><img class="img-thumbnail" width="200"
+                                        <a href="#"><img class="img-thumbnail" style="height:150px;"  
                                                 src="{{ asset( $order->customer->image) }}" alt=""></a>
                                     </div>
                                 </td>
@@ -61,6 +61,11 @@
                                         <a href="{{ route('order.edit', $order->id) }}"
                                             class='btn btn-info'>Edit</a>
                                         @endif
+                                        @if(Auth::user()->hasPermission('Order_view'))
+                                        <a href="{{ route('order.show', $order->id) }}"
+                                            class='btn btn-info'>Detail</a>
+                                        @endif
+                                        @endif
                                         @if(Auth::user()->hasPermission('Order_delete'))
                                         <form action="{{ route('order.destroy',$order->id) }}" method="post">
                                             @csrf
@@ -69,11 +74,8 @@
                                                 onclick="return confirm('Are you sure?')">Delete</button>
                                         </form>
                                         @endif
-                                        @endif
-                                        @if(Auth::user()->hasPermission('Order_view'))
-                                        <a href="{{ route('order.show', $order->id) }}"
-                                            class='btn btn-info'>Detail</a>
-                                        @endif
+                                        <a href="{{ route('order.pdf', $order->id) }}"
+                                            class='btn btn-info'>PDF</a>
                                     </div>
                                 </td>
                             </tr>

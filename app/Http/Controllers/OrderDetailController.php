@@ -36,20 +36,25 @@ class OrderDetailController extends Controller
      */
     public function store(StoreOrderDetailRequest $request)
     {
-        $detail = new OrderDetail();
-        $detail->order_id = $request->order_id;
-        $detail->product_id  = $request->product_id;
-        $id = $request->product_id;
-        $product = Product::find($id);
-        $product->quantity -= $request->quantity;
-        $product->selled  += $request->quantity;
-        $product->save();
-        $price = $product->price;
-        $detail->quantity  = $request->quantity;   
-        $detail->total = $request->quantity*$price;
-        $detail->save();
-        alert()->success('Success created');
-        return redirect()->route('order.show',$request->order_id);
+        try{
+            $detail = new OrderDetail();
+            $detail->order_id = $request->order_id;
+            $detail->product_id  = $request->product_id;
+            $id = $request->product_id;
+            $product = Product::find($id);
+            $product->quantity -= $request->quantity;
+            $product->selled  += $request->quantity;
+            $product->save();
+            $price = $product->price;
+            $detail->quantity  = $request->quantity;   
+            $detail->total = $request->quantity*$price;
+            $detail->save();
+            alert()->success('Success created');
+            return redirect()->route('order.show',$request->order_id);
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -82,30 +87,35 @@ class OrderDetailController extends Controller
      */
     public function update(UpdateOrderDetailRequest $request, String $id)
     {
-        $detail = OrderDetail::find($id);
-        $detail->order_id = $request->order_id;
-        
-        // update product.quantity, product.selled
-        $id = $detail->product_id;
-        $product = Product::find($id);
-        $product->quantity += $detail->quantity;
-        $product->selled -= $detail->quantity;
-        $product->save();
-        
-        $id = $request->product_id;
-        $product = Product::find($id);
-        $product->quantity -= $request->quantity;
-        $product->selled  += $request->quantity;
-        $product->save();
-        // finish
+        try {
+            $detail = OrderDetail::find($id);
+            $detail->order_id = $request->order_id;
+            
+            // update product.quantity, product.selled
+            $id = $detail->product_id;
+            $product = Product::find($id);
+            $product->quantity += $detail->quantity;
+            $product->selled -= $detail->quantity;
+            $product->save();
+            
+            $id = $request->product_id;
+            $product = Product::find($id);
+            $product->quantity -= $request->quantity;
+            $product->selled  += $request->quantity;
+            $product->save();
+            // finish
 
-        $detail->product_id  = $request->product_id ;
-        $detail->quantity  = $request->quantity ;
-        $price = $product->price;   
-        $detail->total = $request->quantity*$price;
-        $detail->save();
-        alert()->success('Success update');
-        return redirect()->route('order.show',$request->order_id);
+            $detail->product_id  = $request->product_id ;
+            $detail->quantity  = $request->quantity ;
+            $price = $product->price;   
+            $detail->total = $request->quantity*$price;
+            $detail->save();
+            alert()->success('Success update');
+            return redirect()->route('order.show',$request->order_id);
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**

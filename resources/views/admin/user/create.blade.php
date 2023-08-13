@@ -98,7 +98,7 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <a href="{{ route('product.index') }}" class='btn btn-secondary'>Back</a>
+                <a href="{{ route('user.index') }}" class='btn btn-secondary'>Back</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

@@ -26,7 +26,7 @@
                             <tr class="table-warning">
                                 <td class="serial">{{ $category->id }}</td>
                                 <td><span class="name">{{ $category->name }}</span> </td>
-                                <td><img class="img-thumbnail" src="{{asset($category->image)}}">
+                                <td><img class="img-thumbnail" src="{{asset($category->image)}}" style='width:200px;'>
                                 </td>
                                 <td>
                                     @if (Auth::user()->hasPermission('Category_update'))

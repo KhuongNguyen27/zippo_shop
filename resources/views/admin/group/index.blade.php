@@ -26,10 +26,10 @@
                             @endforeach
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <a style="color:black;">Group have {{ $total }} person</a>
-                                {{-- @if (Auth::user()->hasPermission('Group_permission') ) --}}
+                                @if (Auth::user()->hasPermission('Group_Permission') )
                                 <a href="{{ route('group.permission',$group->id) }}" class="btn btn-info text-end">has
                                     Permission</a>
-                                {{--@endif --}}
+                                @endif
                             </div>
                         </div><!-- /# card -->
                     </div>

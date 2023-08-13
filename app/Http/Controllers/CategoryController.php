@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         try {
             $this->authorize('viewAny',Category::class);
-            $categories = Category::orderBy('id', 'DESC')->paginate(3);
+            $categories = Category::orderBy('id', 'DESC')->paginate(2);
             $param = [
                 'categories' => $categories
             ];   
@@ -49,19 +49,24 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $category = new Category();
-        $category->name = $request->name;
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $get_img = $request->file($fieldName);
-            $path = 'storage/category/';
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $category->image = $path.$new_name_img;
+        try{
+            $category = new Category();
+            $category->name = $request->name;
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $get_img = $request->file($fieldName);
+                $path = 'storage/category/';
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $category->image = $path.$new_name_img;
+            }
+            $category->save();
+            alert()->success('Success created');
+            return redirect()->route('category.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
         }
-        $category->save();
-        alert()->success('Success created');
-        return redirect()->route('category.index');
     }
 
     /**
@@ -95,23 +100,28 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, String $id)
     {
-        $category = Category::find($id);
-        $category->name = $request->name;
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $path = $category->image;
-            if (file_exists($path)) {
-                unlink($path);
+        try{
+            $category = Category::find($id);
+            $category->name = $request->name;
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $path = $category->image;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+                $get_img = $request->file($fieldName);
+                $path = 'storage/category/';
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $category->image = $path.$new_name_img;
             }
-            $get_img = $request->file($fieldName);
-            $path = 'storage/category/';
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $category->image = $path.$new_name_img;
+            $category->save();
+            alert()->success('Success updated');
+            return redirect()->route('category.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
         }
-        $category->save();
-        alert()->success('Success updated');
-        return redirect()->route('category.index');
     }
 
     /**
@@ -120,7 +130,7 @@ class CategoryController extends Controller
     function trash(){
         try {
             $this->authorize('viewTrash',Category::class);
-            $categories = Category::orderBy('id', 'DESC')->onlyTrashed()->paginate(3);
+            $categories = Category::orderBy('id', 'DESC')->onlyTrashed()->paginate(2);
             return view('admin.category.trash',compact('categories'));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');

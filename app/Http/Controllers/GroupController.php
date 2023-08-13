@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Group;
 use App\Models\Role;
 use App\Models\User;
@@ -14,22 +15,34 @@ class GroupController extends Controller
      */
     function permission(String $id)
     {
-        $roles = Role::orderBy('group_name')->get()->groupBy('group_name');
-        return view('admin.group.permission',compact(['roles','id']));
+        try {
+            $roles = Role::orderBy('group_name')->get()->groupBy('group_name');
+            return view('admin.group.permission',compact(['roles','id']));
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
     function grantpermission(Request $request)
     {
-        $group_id = $request->id;
-        Group_Role::where('group_id', $group_id)->delete();
-        $roles_id = $request->name;
-        foreach ($roles_id as $role_id) {
-            $group_role = new Group_Role();
-            $group_role->role_id = $role_id;
-            $group_role->group_id = $group_id;
-            $group_role->save();
+        try{
+            $group_id = $request->id;
+            Group_Role::where('group_id', $group_id)->delete();
+            $roles_id = $request->name;
+            foreach ($roles_id as $role_id) {
+
+                $group_role = new Group_Role();
+                $group_role->role_id = $role_id;
+                $group_role->group_id = $group_id;
+                $group_role->save();
+            
+            }
+            alert()->success('Grant Permission Success');
+            return redirect()->route('group.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
         }
-        alert()->success('Grant Permission Success');
-        return redirect()->route('group.index');
     }
     public function index()
     {
@@ -64,11 +77,16 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $group = new Group();
-        $group->name = $request->name;
-        $group->save();
-        alert()->success('Created Success');
-        return redirect()->route('group.index');
+        try{
+            $group = new Group();
+            $group->name = $request->name;
+            $group->save();
+            alert()->success('Created Success');
+            return redirect()->route('group.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**

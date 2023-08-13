@@ -18,11 +18,12 @@
                     @php
                     $groupNames = $roles->keys();
                     @endphp
-                    @foreach($roles as $role)
+                    @foreach($roles as $key => $role)
                     <div class="col-md-6">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="col-md-12"
                                 style='background-color: #ffeeba; padding: 20px; border: 2px solid #d6d6d6; border-top-color: #f9f9f9; border-left-color: #f9f9f9; border-bottom-color: #b3b3b3; border-right-color: #b3b3b3;'>
+                                <h3 class="text-center" style="color:blue"><b>{{ $key }}</b></h3>
                                 <div class="card">
                                     @foreach($role as $group)
                                     <div class="list-group-item d-flex justify-content-between align-items-center">

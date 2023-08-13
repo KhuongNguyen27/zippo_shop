@@ -9,7 +9,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\NotesController;
 use App\Models\User;   
+use Illuminate\Support\Facades\App;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,22 +24,45 @@ use App\Models\User;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+    // Route::get('welcome/{locale}/{name}/{apples}', function ($locale,$name,$apples) {
+    //     App::setLocale($locale);
+    //     echo __('messages.welcome', ['name' => $name]).'<br>';
+    //     echo trans_choice('messages.apples', $apples).' '.$apples.'<br>';
+    //     echo  __('Welcome to Website!',);
+    //     //
+    // });
 
-// Route::group(['prefix'=>'category'],function(){
-//     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
-//     Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
-//     Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
-//     Route::get('/show/{id}', [CategoryController::class, 'show'])->name('category.show');
-//     Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-//     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
-//     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
-// });
+    // login admin
     Route::get('/',[AuthController::class,'login'])->name('home');
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
     Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
+
+    //shop
+    Route::group(['prefix'=>'zipposhop','middleware' => 'preventhistory'],function(){
+        Route::get('/login',[ShopController::class,'login'])->name('zipposhop.login');
+        Route::post('/checkLogin',[ShopController::class,'checkLogin'])->name('zipposhop.checkLogin');
+        Route::get('/logout',[ShopController::class,'logout'])->name('zipposhop.logout');
+        Route::get('/cart',[ShopController::class,'cart'])->name('zipposhop.cart');
+        Route::get('/addtocart/{id}',[ShopController::class,'addtocart'])->name('zipposhop.addtocart');
+        Route::put('/updatecart', [ShopController::class, 'update'])->name('zipposhop.updatecart');
+        Route::delete('/removefromcart', [ShopController::class, 'delete'])->name('zipposhop.removefromcart');
+        Route::get('/checkouts', [ShopController::class, 'checkouts'])->name('zipposhop.checkouts')->middleware('auth.shop');
+        Route::get('/zipposhop.storeorder',[ShopController::class,'storeorder'])->name('zipposhop.storeorder');
+        Route::get('/zipposhop.follow_order',[ShopController::class,'follow_order'])->name('zipposhop.follow_order');
+    });
+    Route::resource('zipposhop',ShopController::class); 
     
+    // Xuất excel
+    Route::get('/user/export',[ExportController::class,'user_export'])->name('user.export');
+    Route::get('/customer/export',[ExportController::class,'customer_export'])->name('customer.export');
+    
+    // xuất pdf
+    // Route::get('order/notes', [NotesController::class,'order_notes'])->name('order.notes');
+    Route::get('order/pdf/{id}', [NotesController::class,'order_pdf'])->name('order.pdf');
+
+    // admin
     Route::middleware(['auth','preventhistory'])->group(function(){
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
         
@@ -95,3 +122,5 @@ use App\Models\User;
         });
         Route::resource('group',GroupController::class);
     });
+
+    

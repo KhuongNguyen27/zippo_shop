@@ -12,6 +12,9 @@
                     @if (Auth::user()->hasPermission('Customer_create'))
                     <a href="{{ route('customer.create') }}" class='btn btn-primary'>Create</a>
                     @endif
+                    @if (Auth::user()->hasPermission('Customer_export'))
+                    <a href="{{ route('customer.export') }}" class='btn btn-danger'>Export</a>
+                    @endif
                     <table class="table">
                         <thead>
                             <tr class="table-primary">
@@ -32,7 +35,7 @@
                                 <td class="serial">{{ $customer->id }}</td>
                                 <td class="avatar">
                                     <div class="round-img">
-                                        <a href="#"><img class="img-thumbnail rounded-circle"
+                                        <a href="#"><img class="img-thumbnail" style='height:150px'
                                                 src="{{ asset($customer->image) }}" alt=""></a>
                                     </div>
                                 </td>

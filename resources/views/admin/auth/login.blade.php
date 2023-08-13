@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="register-link m-t-15 text-center">
-                            <p>Don't have account ? <a href="{{route('auth.login')}}"> Sign Up Here</a></p>
+                            <p>Don't have account ? <a href="{{route('auth.register')}}"> Sign Up Here</a></p>
                         </div>
                     </form>
                 </div>

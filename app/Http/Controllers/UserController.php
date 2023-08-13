@@ -37,7 +37,7 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('create',User::class);
-            $groups = Group::where('id','!=',1)->get();
+            $groups = Group::where('id','<>',1)->get();
             return view('admin.user.create',compact(['groups']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
@@ -88,8 +88,13 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('update',User::class);
-            $user = User::find($id);
-            return view('admin.user.edit',compact(['user']));
+            $user = User::with('group')->find($id);
+            $groups = Group::where('id','<>',1)->get();
+            $param = [
+                'user' => $user,
+                'groups' => $groups,
+            ];
+            return view('admin.user.edit',$param);
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
             return back();
@@ -127,6 +132,19 @@ class UserController extends Controller
      */
     public function destroy(String $id)
     {
-        
+        try {
+            $this->authorize('delete',User::class);
+            $user = User::find($id);
+            $get_img = $user->image;
+            if (file_exists($get_img)) {
+                unlink($get_img);
+            }
+            $user->delete();
+            alert()->success('Delete Success');
+            return redirect()->route('user.index');
+        } catch (\Exception $e) {
+            alert()->warning('Delete Error');
+            return back();
+        }
     }
 }

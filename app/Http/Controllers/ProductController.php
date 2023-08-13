@@ -47,29 +47,34 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = new Product();
-        $product->name = $request->name; 
-        $product->category_id = $request->category_id; 
-        $product->price = $request->price; 
-        $product->description = $request->description; 
-        $product->quantity = $request->quantity; 
-        $product->discount = 0; 
-        $product->selled = 0;
-        $product->status = $request->status;
-        if ($product->quantity > 0) {
-            $product->status = 1;
-        }
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $get_img = $request->file($fieldName);
-            $path = 'storage/product/';
-            $new_name_img = $request->name.$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $product->image = $path.$new_name_img;
-        }
-        $product->save();
-        alert()->success('Success created');
-        return redirect()->route('product.index');
+        try {
+            $product = new Product();
+            $product->name = $request->name; 
+            $product->category_id = $request->category_id; 
+            $product->price = $request->price; 
+            $product->description = $request->description; 
+            $product->quantity = $request->quantity; 
+            $product->discount = 0; 
+            $product->selled = 0;
+            $product->status = $request->status;
+            if ($product->quantity > 0) {
+                $product->status = 1;
+            }
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $get_img = $request->file($fieldName);
+                $path = 'storage/product/';
+                $new_name_img = $request->name.$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $product->image = $path.$new_name_img;
+            }
+            $product->save();
+            alert()->success('Success created');
+            return redirect()->route('product.index');
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
 
     /**
@@ -102,28 +107,33 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, String $id)
     {
-        $product = Product::find($id);
-        $product->name = $request->name;
-        $product->category_id = $request->category_id;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->discount = $request->discount;
-        $product->status = $request->status;
-        $fieldName='image';
-        if ($request->hasFile($fieldName)) {
-            $path = $product->image;
-            if (file_exists($path)) {
-                unlink($path);
+        try{
+            $product = Product::find($id);
+            $product->name = $request->name;
+            $product->category_id = $request->category_id;
+            $product->price = $request->price;
+            $product->quantity = $request->quantity;
+            $product->discount = $request->discount;
+            $product->status = $request->status;
+            $fieldName='image';
+            if ($request->hasFile($fieldName)) {
+                $path = $product->image;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+                $path = 'storage/product/';
+                $get_img = $request->file($fieldName);
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $product->image = $path.$new_name_img;
             }
-            $path = 'storage/product/';
-            $get_img = $request->file($fieldName);
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $product->image = $path.$new_name_img;
-        }
-        $product->save();
-        alert()->success('Success updated');
-        return redirect()->route('product.index');
+            $product->save();
+            alert()->success('Success updated');
+            return redirect()->route('product.index');
+        } catch (\Exception $e) {
+            alert()->warning('Have problem! Please try again late');
+            return back();
+        } 
     }
     public function trash()
     {

@@ -12,6 +12,9 @@
                     @if (Auth::user()->hasPermission('User_create') )
                     <a href="{{ route('user.create') }}" class='btn btn-primary'>Create</a>
                     @endif
+                    @if (Auth::user()->hasPermission('User_export') )
+                    <a href="{{ route('user.export') }}" class='btn btn-danger'>Export</a>
+                    @endif
                     <table class="table">
                         <thead class="table-primary">
                             <tr>
@@ -30,7 +33,7 @@
                                 <td class="serial">{{ $user->id }}</td>
                                 <td class="avatar">
                                     <div class="round-img">
-                                        <a href="#"><img class="img-thumbnail rounded-circle" src="{{ asset($user->image) }}"
+                                        <a href="#"><img class="img-thumbnail rounded-circle" src="{{ asset($user->image) }}" style='height:200px;'
                                                 alt=""></a>
                                     </div>
                                 </td>
@@ -53,12 +56,19 @@
                                 </td>
                                 <td>{{ $user->phone }}</td>
                                 <td>{{ $user->group->name }}</td>
-                                <td>
-                                    @if (Auth::user()->hasPermission('User_update') )
+                                <td class="d-flex justify-content-center">
+                                    @if (Auth::user()->hasPermission('User_update'))
                                     <div class="d-flex justify-content-center">
                                         <a href="{{ route('user.edit', $user->id) }}" class='btn btn-info'>Edit</a>
                                     </div>
                                     @endif
+                                    @if( Auth::user()->hasPermission('User_delete') )
+                                    <form action="{{ route('user.destroy',$user->id) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="form-controller btn btn-danger" onclick="return confirm('Are u sure? User be deleted forever')">Delete</button>
+                                    </form>
+                                    @endif 
                                 </td>
                             </tr>
                             @endforeach

@@ -9,24 +9,24 @@
                     <h4 class="box-title">Orders </h4>
                 </div>
                 <div class="card-body--">
-                    @if (Auth::user()->hasPermission('Order_create') )
                     <a href="{{ route('order.index') }}" class='btn btn-secondary'>Back</a>
+                    @if (Auth::user()->hasPermission('Order_create') )
                     <a href="{{ route('orderdetail.create',$order->id) }}" class='btn btn-primary'>Create</a>
                     @endif
                     <table class="table">
                         <thead>
                             <tr>
-                                <th colspan="6" class='text-left'><b class='fw-normal' style="color:black">Mã hóa đơn :
-                                        {{$order->id}}</br>Ghi chú: {{$order->note}}</b></th>
+                                <th colspan="6" class='text-left'><b class='fw-normal' style="color:black">Order ID :
+                                        {{$order->id}}</br>Note : {{$order->note}}</b></th>
                             </tr>
                             <tr class="table-primary">
-                                <th>Tên sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Giá tiền</th>
-                                <th>Giảm giá</th>
-                                <th>Tổng tiền</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>Subtotal</th>
                                 @if($order->status == 0)
-                                <th>Hành động</th>
+                                <th>Action</th>
                                 @endif
                             </tr>
                         </thead>
@@ -50,7 +50,7 @@
 
                                         @if (Auth::user()->hasPermission('Orderdetail_delete'))
                                         <button
-                                            onclick="return confirm('Bạn có muốn chuyển danh mục này vào thùng rác không?');"
+                                            onclick="return confirm('Are u sure?');"
                                             class="btn btn-danger">Delete</button>
                                         @endif
                                     </form>

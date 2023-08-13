@@ -55,36 +55,41 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        $order = new Order();
-        $order->customer_id = $request->customer_id;
-        $order->note = $request->note;
-        $order->date_ship = Carbon::now()->addDays(5);
-        $order->total = 0;
-        $order->save();
-        
-        // update product.quantity, product.selled
-        $product = Product::find($request->product_id);
-        $product->quantity -= $request->quantity;
-        $product->selled += $request->quantity;
-        $product->save();
-        //finish
+        try{
+            $order = new Order();
+            $order->customer_id = $request->customer_id;
+            $order->note = $request->note;
+            $order->date_ship = Carbon::now()->addDays(5);
+            $order->total = 0;
+            $order->save();
+            
+            // update product.quantity, product.selled
+            $product = Product::find($request->product_id);
+            $product->quantity -= $request->quantity;
+            $product->selled += $request->quantity;
+            $product->save();
+            //finish
 
-        // add orderdetail
-        $detail = new OrderDetail();
-        $detail->order_id = $order->id;
-        $detail->product_id = $request->product_id;
-        $detail->quantity = $request->quantity;
-        $price = $product->price;
-        $discount = $product->discount;
-        $total = ($price - ($price/100)*$discount)*$request->quantity;
-        $detail->total = $total;
-        $detail->save();
-        //finish
+            // add orderdetail
+            $detail = new OrderDetail();
+            $detail->order_id = $order->id;
+            $detail->product_id = $request->product_id;
+            $detail->quantity = $request->quantity;
+            $price = $product->price;
+            $discount = $product->discount;
+            $total = ($price - ($price/100)*$discount)*$request->quantity;
+            $detail->total = $total;
+            $detail->save();
+            //finish
 
-        $order->total = $detail->total;
-        $order->save();
-        alert()->success('Success created');
-        return redirect()->route('order.index');
+            $order->total = $detail->total;
+            $order->save();
+            alert()->success('Success created');
+            return redirect()->route('order.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**
@@ -132,13 +137,18 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, String $id)
     {
-        $order = Order::find($id);
-        $order->date_ship = $request->date_ship;
-        $order->note = $request->note;
-        $order->status = $request->status;
-        $order->save();
-        alert()->success('Success updated');
-        return redirect()->route('order.index');
+        try{
+            $order = Order::find($id);
+            $order->date_ship = $request->date_ship;
+            $order->note = $request->note;
+            $order->status = $request->status;
+            $order->save();
+            alert()->success('Success updated');
+            return redirect()->route('order.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**
@@ -152,7 +162,6 @@ class OrderController extends Controller
             $status = $order->status == 0;
             if ($status && $this->authorize('delete',$order)) {
                 $order->delete();
-                return view('admin.order.edit',compact(['customers','order']));
                 alert()->success('Success move to trash');
                 return back();
             }

@@ -45,25 +45,30 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         // dd($request);
-        $customer = new Customer();
-        $customer->name = $request->name;
-        $customer->day_of_birth = $request->day_of_birth;
-        $customer->address = $request->address;
-        $customer->email = $request->email;
-        $customer->gender = $request->gender;
-        $customer->phone = $request->phone;
-        $customer->password = bcrypt($request->password);
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $get_img = $request->file($fieldName);
-            $path = 'storage/customer/';
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $customer->image = $path.$new_name_img;
-        } 
-        $customer->save();
-        alert()->success('Success Created');
-        return redirect()->route('customer.index');
+        try{
+            $customer = new Customer();
+            $customer->name = $request->name;
+            $customer->day_of_birth = $request->day_of_birth;
+            $customer->address = $request->address;
+            $customer->email = $request->email;
+            $customer->gender = $request->gender;
+            $customer->phone = $request->phone;
+            $customer->password = bcrypt($request->password);
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $get_img = $request->file($fieldName);
+                $path = 'storage/customer/';
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $customer->image = $path.$new_name_img;
+            } 
+            $customer->save();
+            alert()->success('Success Created');
+            return redirect()->route('customer.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**
@@ -96,29 +101,34 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, String $id)
     {
         // dd($request);
-        $customer = Customer::find($id);
-        $customer->name = $request->name;
-        $customer->day_of_birth = $request->day_of_birth;
-        $customer->address = $request->address;
-        $customer->email = $request->email;
-        $customer->gender = $request->gender;
-        $customer->phone = $request->phone;
-        $customer->password = bcrypt($request->password);
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $path = $customer->image;
-            if (file_exists($path)) {
-                unlink($path);
-            }
-            $path = 'storage/customer/';
-            $get_img = $request->file($fieldName);
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $customer->image = $path.$new_name_img;
-        } 
-        $customer->save();
-        alert()->success('Success update');
-        return redirect()->route('customer.index');
+        try{
+            $customer = Customer::find($id);
+            $customer->name = $request->name;
+            $customer->day_of_birth = $request->day_of_birth;
+            $customer->address = $request->address;
+            $customer->email = $request->email;
+            $customer->gender = $request->gender;
+            $customer->phone = $request->phone;
+            $customer->password = bcrypt($request->password);
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $path = $customer->image;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+                $path = 'storage/customer/';
+                $get_img = $request->file($fieldName);
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $customer->image = $path.$new_name_img;
+            } 
+            $customer->save();
+            alert()->success('Success update');
+            return redirect()->route('customer.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**

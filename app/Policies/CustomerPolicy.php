@@ -15,6 +15,10 @@ class CustomerPolicy
     {
         return $user->hasPermission('Customer_viewAny');
     }
+    public function export(User $user)
+   {
+      return $user->hasPermission('Customer_export');
+   }
 
     /**
      * Determine whether the user can view the model.
