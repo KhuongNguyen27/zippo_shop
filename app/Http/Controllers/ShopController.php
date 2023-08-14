@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Laravel\Socialite\Facades\Socialite;
 
 class ShopController extends Controller
 {
@@ -207,12 +207,16 @@ class ShopController extends Controller
             alert()->success('Delete product success!');
         }
     }
-    public function storeorder(){
-        $carts = session()->get('cart',[]);
+    public function storeorder(Request $request){
         $user = Auth::guard('customers')->user()->id;
+        $customer = Customer::find($user);
+        $customer->address = $request->address;
+        $customer->phone = $request->phone;
+        $customer->save();
+        $carts = session()->get('cart',[]);
         $order = new Order();
         $order->customer_id = $user;
-        $order->note = 'Not now';
+        $order->note = $request->note;
         $order->date_ship = Carbon::now()->addDays(5);
         $order->total = 0;
         $order->save();
@@ -242,12 +246,32 @@ class ShopController extends Controller
         }
         $order->save();
         Session::forget('cart');
-        return response()->json(['order' => $order,'detail' => $detail]);
+        alert()->success('Place order success. Thank you');
+        return redirect()->route('zipposhop.index');
+        // return response()->json(['order' => $order,'detail' => $detail]);
     }
     public function follow_order(){
         $id = Auth::guard('customers')->user()->id;
         $orders = Order::with('orderdetail')->where('customer_id',$id)->get();
         $categories = Category::get();
         return view('shop.follow_order',compact('orders','categories'));
+    }
+    function loginbyGG(){
+        return Socialite::driver('google')->redirect();
+    }
+    function loginGGCallBack(){
+        $user = Socialite::driver('google')->user();
+        $customer = Customer::updateOrCreate([
+            'email' => $user->email,
+        ],[
+            'name' => $user->name,
+            'email' => $user->email,
+            'image' => $user->avatar,
+            'email_token' => $user->token,
+            'email_refresh_token' => $user->refreshToken,
+        ]);
+        if(Auth::guard('customers')->loginUsingId($customer->id)){
+            return redirect()->route('zipposhop.index');
+        }
     }
 }

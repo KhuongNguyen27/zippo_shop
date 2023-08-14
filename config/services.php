@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'google' => [
+        'client_id' => '267244871553-11dskjs23ii0a54vp7pcj15agpvqbb9n.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'http://127.0.0.1:8000/zipposhop/google/callback',
+      ], 
 
 ];

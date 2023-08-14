@@ -18,20 +18,13 @@
                 <div class="inner-box">
                     <div class="billing-info p_relative d_block mb_55">
                         <h4 class="sub-title d_block fs_30 lh_40 mb_25">Billing Details</h4>
-                        <form action="#" method="post" class="billing-form p_relative d_block">
+                        <form action="{{ route('zipposhop.storeorder') }}" method="get" class="billing-form p_relative d_block">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-group">
                                     <label class="p_relative d_block fs_16 font_family_poppins color_black mb_2">User
                                         Name*</label>
                                     <div class="field-input">
-                                        <input type="text" value="{{ $user->name }}" name="name" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                    <label class="p_relative d_block fs_16 font_family_poppins color_black mb_2"> Day of
-                                        Birth*</label>
-                                    <div class="field-input">
-                                        <input type="date" value="{{ $user->day_of_birth }}" name="day_of_birth">
+                                        <input type="text" value="{{ $user->name }}" name="name" class="form-control" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 form-group">
@@ -39,14 +32,6 @@
                                         class="p_relative d_block fs_16 font_family_poppins color_black mb_2">Address*</label>
                                     <div class="field-input">
                                         <input type="text" value="{{ $user->address }}" name="address"
-                                            class="col-12 form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                    <label
-                                        class="p_relative d_block fs_16 font_family_poppins color_black mb_2">Email*</label>
-                                    <div class="field-input">
-                                        <input type="email" value="{{ $user->email }}" name="email"
                                             class="col-12 form-control">
                                     </div>
                                 </div>
@@ -66,7 +51,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center">
                                     <div class="payment-info p_relative d_block pt_45 pr_50 pb_50 pl_50 bg-light">
                                         <div class="btn-link">
-                                            <a class="theme-btn theme-btn-eight store-order">Place Your Order </a>
+                                            <input class="theme-btn theme-btn-eight" value="Place Your Order" type="submit">
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +107,7 @@ $(document).ready(function() {
                 type: "get",
             })
             .done(function(response) {
-                console.log(response);
+                // console.log(response);
                 alert('Place order success. Thank you <3')
                 window.location.href = "{{ route('zipposhop.index') }}"
             })

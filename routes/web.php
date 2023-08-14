@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
@@ -12,7 +12,9 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\NotesController;
-use App\Models\User;   
+use App\Models\User; 
+use App\Models\Customer; 
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\App;
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,7 @@ use Illuminate\Support\Facades\App;
     Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
+    
 
     //shop
     Route::group(['prefix'=>'zipposhop','middleware' => 'preventhistory'],function(){
@@ -50,16 +53,14 @@ use Illuminate\Support\Facades\App;
         // lấy lại mk customer bằng email
         Route::get('/forgotpassword',[CustomerController::class,'forgotpassword'])->name('zipposhop.forgotpassword');
         Route::post('/postforgot',[CustomerController::class,'postforgot'])->name('zipposhop.postforgot');
+        
+        // login by gg
+        Route::get('/google',[ShopController::class,'loginbyGG'])->name('login.google');
+        Route::get('/google/callback',[ShopController::class,'loginGGCallBack']);
     }); 
     Route::resource('zipposhop',ShopController::class); 
     
-    // Xuất excel
-    Route::get('/user/export',[ExportController::class,'user_export'])->name('user.export');
-    Route::get('/customer/export',[ExportController::class,'customer_export'])->name('customer.export');
-    
-    // xuất pdf
-    // Route::get('order/notes', [NotesController::class,'order_notes'])->name('order.notes');
-    Route::get('order/pdf/{id}', [NotesController::class,'order_pdf'])->name('order.pdf');
+   
     
     // lấy lại mk user bằng email
     Route::get('/forgotpassword',[UserController::class,'forgotpassword'])->name('user.forgotpassword');
@@ -69,6 +70,14 @@ use Illuminate\Support\Facades\App;
     Route::middleware(['auth','preventhistory'])->group(function(){
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
         Route::get('/search',[AuthController::class,'search'])->name('auth.search');
+        
+        // Xuất excel
+        Route::get('/user/export',[ExportController::class,'user_export'])->name('user.export');
+        Route::get('/customer/export',[ExportController::class,'customer_export'])->name('customer.export');
+        
+        // xuất pdf
+        // Route::get('order/notes', [NotesController::class,'order_notes'])->name('order.notes');
+        Route::get('order/pdf/{id}', [NotesController::class,'order_pdf'])->name('order.pdf');
         
         // route category
         Route::group(['prefix'=>'category'],function(){

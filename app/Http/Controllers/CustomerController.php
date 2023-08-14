@@ -131,7 +131,6 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, String $id)
     {
-        // dd($request);
         try{
             $customer = Customer::find($id);
             $customer->name = $request->name;
