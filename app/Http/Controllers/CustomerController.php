@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -74,9 +77,37 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function forgotpassword(Customer $customer)
     {
-        //
+        $categories = Category::get();
+        return view('shop.forgotpassword.forgot',compact('categories'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function postforgot(Request $request)
+    {
+        $customer = Customer::where('email', $request->email)->first(); // Tìm người dùng dựa trên địa chỉ email yêu cầu
+
+        if ($customer) {
+            $pass = Str::random(6);
+            $customer->password = bcrypt($pass);
+            $customer->save();
+
+            $data = [
+                'name' => $customer->name,
+                'pass' => $pass,
+                'email' => $customer->email,
+            ];
+
+            Mail::send('shop.forgotpassword.sendmail', compact('data'), function ($email) use ($customer) {
+                $email->from($customer->email, 'Zippo Viet Nam'); // Địa chỉ email và tên người gửi là email của người dùng
+                $email->subject('Forgot Password');
+                $email->to($customer->email, $customer->name);
+            });
+        }
+        return redirect()->route('zipposhop.login');
     }
 
     /**

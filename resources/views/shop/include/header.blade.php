@@ -55,7 +55,9 @@
                                     <li><a href="#">Home </a></li>
                                     <li class="dropdown"><a href="#">Products</a>
                                         <ul class="sub-dropdown">
-                                            <li><a href="#">Categories List</a></li>
+                                            @foreach($categories as $category)    
+                                            <li><a href="#">{{ $category->name }}</a></li>
+                                            @endforeach
                                         </ul>
                                     </li>
                                     <li><a href="#">Knowledge</a></li>

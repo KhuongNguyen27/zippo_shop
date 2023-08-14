@@ -33,7 +33,6 @@
                 Note: {{ $order->note }}<br>
                 Total: {{  number_format($order->total).' VND' }}
             </th>
-
         </tr>
     </tbody>
 </table>

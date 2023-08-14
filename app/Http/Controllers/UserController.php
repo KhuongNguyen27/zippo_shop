@@ -7,6 +7,8 @@ use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -146,5 +148,35 @@ class UserController extends Controller
             alert()->warning('Delete Error');
             return back();
         }
+    }
+    public function forgotpassword(User $user)
+    {
+        return view('admin.forgotpassword.forgot');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function postforgot(Request $request)
+    {
+        $user = User::where('email', $request->email)->first(); // Tìm người dùng dựa trên địa chỉ email yêu cầu
+        if ($user) {
+            $pass = Str::random(6);
+            $user->password = bcrypt($pass);
+            $user->save();
+
+            $data = [
+                'name' => $user->name,
+                'pass' => $pass,
+                'email' => $user->email,
+            ];
+
+            Mail::send('shop.forgotpassword.sendmail', compact('data'), function ($email) use ($user) {
+                $email->from($user->email, 'Zippo Viet Nam'); // Địa chỉ email và tên người gửi là email của người dùng
+                $email->subject('Forgot Password');
+                $email->to($user->email, $user->name);
+            });
+        }
+        return redirect()->route('auth.login');
     }
 }

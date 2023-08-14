@@ -24,13 +24,6 @@ use Illuminate\Support\Facades\App;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-    // Route::get('welcome/{locale}/{name}/{apples}', function ($locale,$name,$apples) {
-    //     App::setLocale($locale);
-    //     echo __('messages.welcome', ['name' => $name]).'<br>';
-    //     echo trans_choice('messages.apples', $apples).' '.$apples.'<br>';
-    //     echo  __('Welcome to Website!',);
-    //     //
-    // });
 
     // login admin
     Route::get('/',[AuthController::class,'login'])->name('home');
@@ -44,14 +37,20 @@ use Illuminate\Support\Facades\App;
         Route::get('/login',[ShopController::class,'login'])->name('zipposhop.login');
         Route::post('/checkLogin',[ShopController::class,'checkLogin'])->name('zipposhop.checkLogin');
         Route::get('/logout',[ShopController::class,'logout'])->name('zipposhop.logout');
+        
+        // giỏ hàng
         Route::get('/cart',[ShopController::class,'cart'])->name('zipposhop.cart');
         Route::get('/addtocart/{id}',[ShopController::class,'addtocart'])->name('zipposhop.addtocart');
         Route::put('/updatecart', [ShopController::class, 'update'])->name('zipposhop.updatecart');
         Route::delete('/removefromcart', [ShopController::class, 'delete'])->name('zipposhop.removefromcart');
         Route::get('/checkouts', [ShopController::class, 'checkouts'])->name('zipposhop.checkouts')->middleware('auth.shop');
-        Route::get('/zipposhop.storeorder',[ShopController::class,'storeorder'])->name('zipposhop.storeorder');
-        Route::get('/zipposhop.follow_order',[ShopController::class,'follow_order'])->name('zipposhop.follow_order');
-    });
+        Route::get('/storeorder',[ShopController::class,'storeorder'])->name('zipposhop.storeorder');
+        Route::get('/follow_order',[ShopController::class,'follow_order'])->name('zipposhop.follow_order');
+
+        // lấy lại mk customer bằng email
+        Route::get('/forgotpassword',[CustomerController::class,'forgotpassword'])->name('zipposhop.forgotpassword');
+        Route::post('/postforgot',[CustomerController::class,'postforgot'])->name('zipposhop.postforgot');
+    }); 
     Route::resource('zipposhop',ShopController::class); 
     
     // Xuất excel
@@ -61,10 +60,15 @@ use Illuminate\Support\Facades\App;
     // xuất pdf
     // Route::get('order/notes', [NotesController::class,'order_notes'])->name('order.notes');
     Route::get('order/pdf/{id}', [NotesController::class,'order_pdf'])->name('order.pdf');
+    
+    // lấy lại mk user bằng email
+    Route::get('/forgotpassword',[UserController::class,'forgotpassword'])->name('user.forgotpassword');
+    Route::post('/postforgot',[UserController::class,'postforgot'])->name('user.postforgot');
 
     // admin
     Route::middleware(['auth','preventhistory'])->group(function(){
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
+        Route::get('/search',[AuthController::class,'search'])->name('auth.search');
         
         // route category
         Route::group(['prefix'=>'category'],function(){

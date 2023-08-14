@@ -57,9 +57,17 @@
                                         <input type="text" value="{{ $user->phone }}" name="phone" class="form-control">
                                     </div>
                                 </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                    <label class="p_relative d_block fs_16 font_family_poppins color_black mb_2">Note*</label>
+                                    <div class="field-input">
+                                        <textarea name="note" id="" cols="30" rows="5" class="form-control"></textarea>
+                                    </div>
+                                </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center">
-                                    <div class="field-input  w-50">
-                                        <input type="submit" class="btn btn-danger w-100 mt-5" value="Change">
+                                    <div class="payment-info p_relative d_block pt_45 pr_50 pb_50 pl_50 bg-light">
+                                        <div class="btn-link">
+                                            <a class="theme-btn theme-btn-eight store-order">Place Your Order </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -100,56 +108,28 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="payment-info p_relative d_block pt_45 pr_50 pb_50 pl_50 bg-light">
-                        <h4 class="sub-title d_block fs_24 lh_30 mb_40">Payment</h4>
-                        <!-- <div class="payment-inner p_relative d_block pt_25 pr_30 pb_20 pl_30 mb_30">
-                            <div class="option-block pb_12 mb_13">
-                                <div class="check-box">
-                                    <input class="check" type="checkbox" id="checkbox2" checked>
-                                    <label for="checkbox2" class="fs_16 fw_medium font_family_inter color_black">Direct
-                                        Bank Transfer</label>
-                                </div>
-                                <p class="fs_14 font_family_poppins pl_30">Please send a check to Store Name, Store
-                                    Street, Store Town, Store State / County, Store Postcode.</p>
-                            </div>
-                            <div class="option-block clearfix">
-                                <div class="check-box pull-left mr_25">
-                                    <input class="check" type="checkbox" id="checkbox3">
-                                    <label for="checkbox3"
-                                        class="fs_16 fw_medium font_family_inter color_black">Paypal</label>
-                                </div>
-                                <div class="link pull-left">
-                                    <a href="checkout.html" class="fs_16 fw_medium font_family_inter color_black">What
-                                        is Paypal?</a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <div class="btn-link">
-                            <a class="theme-btn theme-btn-eight store-order" >Place Your Order </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <script>
-    var url = "{{ route('zipposhop.storeorder') }}"
-    $(document).ready(function(){
-        $('.store-order').click(function(e){
-            $.ajax({
+var url = "{{ route('zipposhop.storeorder') }}"
+$(document).ready(function() {
+    $('.store-order').click(function(e) {
+        $.ajax({
                 url: url,
                 type: "get",
             })
-            .done(function(response){
+            .done(function(response) {
                 console.log(response);
                 alert('Place order success. Thank you <3')
-                window.location.href= "{{ route('zipposhop.index') }}"
+                window.location.href = "{{ route('zipposhop.index') }}"
             })
-            .fail(function(){
+            .fail(function() {
                 alert('Place order fail. Please try again or contact admin')
             })
-        })
     })
+})
 </script>
 @endsection

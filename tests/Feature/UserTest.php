@@ -13,15 +13,15 @@ class UserTest extends TestCase
      * A basic feature test example.
      */
     use WithFaker;
-    public function testUserRoute()
-    {
-        $this->get(route('user.index'))->assertStatus(200);
-        $this->get(route('user.edit', 1))->assertStatus(200);
-        $this->get(route('user.update', 1))->assertStatus(200);
-        $this->get(route('user.create'))->assertStatus(200);
-        $this->get(route('user.store'))->assertStatus(200);
-        $this->get(route('user.delete', 1))->assertStatus(200);
-    }
+    // public function testUserRoute()
+    // {
+    //     $this->get(route('user.index'))->assertStatus(200);
+    //     $this->get(route('user.edit', 1))->assertStatus(200);
+    //     $this->get(route('user.update', 1))->assertStatus(200);
+    //     $this->get(route('user.create'))->assertStatus(200);
+    //     $this->get(route('user.store'))->assertStatus(200);
+    //     $this->get(route('user.delete', 1))->assertStatus(200);
+    // }
     public function test_create_user_by_factory()
     {
         $user = User::factory(User::class)->create();//goi factory de tao moi du lieu

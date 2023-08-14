@@ -7,6 +7,8 @@ use App\Http\Requests\RegisterAuthRequest;
 use App\Http\Requests\LoginAuthRequest;
 use App\Models\User;
 use App\Models\Group;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Session as CheckLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -85,5 +87,28 @@ class AuthController extends Controller
             alert()->warning('Have problem! Please try again late');
             return back();
         }    
+    }
+    function search(Request $request){
+        $url = $request->url;
+        $search = $request->search;
+        $path = parse_url($url, PHP_URL_PATH);
+        $filename = pathinfo($path, PATHINFO_FILENAME);
+        switch ($filename) {
+            case 'category':
+                $categories = Category::where('name',$search)->paginate(3);
+                return view('admin.category.index',compact('categories'));
+                break;
+            case 'product':
+                $products = Product::where('name',$search)
+                                ->orWhere('quantity',$search)
+                                ->orWhere('discount',$search)
+                                ->orWhere('price',$search)
+                                ->paginate(3);
+                return view('admin.product.index',compact('products'));
+                break;
+            default:
+                alert()->warning('Have problem, Please try again late');
+                break;
+        }
     }
 }

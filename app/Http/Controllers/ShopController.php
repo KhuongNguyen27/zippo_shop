@@ -25,7 +25,8 @@ class ShopController extends Controller
      */
     public function login()
     {
-        return view('shop.login');
+        $categories = Category::get();
+        return view('shop.login',compact('categories'));
     }
     
     public function checklogin(ShopLoginRequest $request)
@@ -34,12 +35,10 @@ class ShopController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
-        try {
-            if (Auth::guard('customers')->attempt($arr) ) {
-                alert()->success('Success Login');
-                return redirect()->route('zipposhop.index');
-            }
-        } catch (\Exception $e) {
+        if (Auth::guard('customers')->attempt($arr) ) {
+            alert()->success('Success Login');
+            return redirect()->route('zipposhop.index');
+        }else {
             $message = "Login fail. Please try again";
             return back()->with('login-fail',$message);
         }
@@ -72,7 +71,8 @@ class ShopController extends Controller
      */
     public function create()
     {
-        return view('shop.register');
+        $categories = Category::get();
+        return view('shop.register',compact('categories'));
     }
 
     /**
@@ -106,9 +106,11 @@ class ShopController extends Controller
     {
         $products = Product::paginate(3);
         $product = Product::with('category')->find($id);
+        $categories = Category::get();
         $param = [
             'products' => $products,
-            'product' => $product
+            'product' => $product,
+            'categories' => $categories
         ];
         return view('shop.show',$param);
     }
@@ -116,9 +118,11 @@ class ShopController extends Controller
     public function cart()
     {
         // lấy session cart nếu đã tồn tại, nếu không tồn tại khởi tạo mảng rỗng
+        $categories = Category::get();
         $cart = session()->get('cart', []);
         $param = [
             'cart' => $cart,
+            'categories' => $categories
         ];
         return view('shop.cart',$param);
     }
@@ -162,6 +166,7 @@ class ShopController extends Controller
     public function checkouts()
     {
         $carts = session()->get('cart',[]);
+        $categories = Category::get();
         $user = Auth::guard('customers')->user();
         if (empty($carts)) {
             alert()->warning('Didnt found product on cart');
@@ -170,6 +175,7 @@ class ShopController extends Controller
         $param = [
             'carts' => $carts,
             'user' => $user,
+            'categories' => $categories
         ];
         return view('shop.checkouts',$param);
     }
@@ -241,6 +247,7 @@ class ShopController extends Controller
     public function follow_order(){
         $id = Auth::guard('customers')->user()->id;
         $orders = Order::with('orderdetail')->where('customer_id',$id)->get();
-        return view('shop.follow_order',compact('orders'));
+        $categories = Category::get();
+        return view('shop.follow_order',compact('orders','categories'));
     }
 }
