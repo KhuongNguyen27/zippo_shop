@@ -216,7 +216,8 @@ class ShopController extends Controller
         $carts = session()->get('cart',[]);
         $order = new Order();
         $order->customer_id = $user;
-        $order->note = $request->note;
+        $note = empty($request->note)? 'Not note' : $request->note;
+        $order->note = $note;
         $order->date_ship = Carbon::now()->addDays(5);
         $order->total = 0;
         $order->save();

@@ -101,7 +101,7 @@ class CustomerController extends Controller
                 'email' => $customer->email,
             ];
 
-            Mail::send('shop.forgotpassword.sendmail', compact('data'), function ($email) use ($customer) {
+            Mail::send('shop.forgotpassword.sendmail', compact('data'), function ($email) use (&$customer) {
                 $email->from($customer->email, 'Zippo Viet Nam'); // Địa chỉ email và tên người gửi là email của người dùng
                 $email->subject('Forgot Password');
                 $email->to($customer->email, $customer->name);

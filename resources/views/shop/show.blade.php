@@ -17,7 +17,7 @@
                     <div class="product-details p_relative d_block ml_20">
                         <h2 class="d_block fs_30 lh_40 fw_sbold font_family_inter mb_5">{{ $product->name }}</h2>
                         <div class="text p_relative d_block mb_30">
-                            <p class="font_family_poppins mb_25">{{ $product->description }}</p>
+                            <p class="font_family_poppins mb_25">{!! $product->description !!}</p>
                         </div>
                         <div class="addto-cart-box p_relative d_block mb_35">
                             <ul class="clearfix">
@@ -52,7 +52,7 @@
                     <div class="tab active-tab" id="tab-1">
                         <div class="content-box">
                             <p class="font_family_poppins mb_25"></p>
-                            <p class="font_family_poppins ">{{ $product->description }}</p>
+                            <p class="font_family_poppins ">{!! $product->description !!}</p>
                         </div>
                     </div>
                 </div>
