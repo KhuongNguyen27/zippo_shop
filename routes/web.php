@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
@@ -9,7 +9,13 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
-use App\Models\User;   
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\NotesController;
+use App\Models\User; 
+use App\Models\Customer; 
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\App;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,27 +27,59 @@ use App\Models\User;
 |
 */
 
-// Route::group(['prefix'=>'category'],function(){
-//     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
-//     Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
-//     Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
-//     Route::get('/show/{id}', [CategoryController::class, 'show'])->name('category.show');
-//     Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-//     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
-//     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
-// });
-    Route::get('test',function(){
-        return view('admin.include.content');
-    });
+    // login admin
     Route::get('/',[AuthController::class,'login'])->name('home');
     Route::get('/login',[AuthController::class,'login'])->name('auth.login');
     Route::post('/checkLogin',[AuthController::class,'checkLogin'])->name('auth.checkLogin');
     Route::get('/register',[AuthController::class,'register'])->name('auth.register');
     Route::post('/checkRegister',[AuthController::class,'checkRegister'])->name('auth.checkRegister');
     
+
+    //shop
+    Route::group(['prefix'=>'zipposhop','middleware' => 'preventhistory'],function(){
+        Route::get('/login',[ShopController::class,'login'])->name('zipposhop.login');
+        Route::post('/checkLogin',[ShopController::class,'checkLogin'])->name('zipposhop.checkLogin');
+        Route::get('/logout',[ShopController::class,'logout'])->name('zipposhop.logout');
+        
+        // giỏ hàng
+        Route::get('/cart',[ShopController::class,'cart'])->name('zipposhop.cart');
+        Route::get('/addtocart/{id}',[ShopController::class,'addtocart'])->name('zipposhop.addtocart');
+        Route::put('/updatecart', [ShopController::class, 'update'])->name('zipposhop.updatecart');
+        Route::delete('/removefromcart', [ShopController::class, 'delete'])->name('zipposhop.removefromcart');
+        Route::get('/checkouts', [ShopController::class, 'checkouts'])->name('zipposhop.checkouts')->middleware('auth.shop');
+        Route::get('/storeorder',[ShopController::class,'storeorder'])->name('zipposhop.storeorder');
+        Route::get('/follow_order',[ShopController::class,'follow_order'])->name('zipposhop.follow_order');
+
+        // lấy lại mk customer bằng email
+        Route::get('/forgotpassword',[CustomerController::class,'forgotpassword'])->name('zipposhop.forgotpassword');
+        Route::post('/postforgot',[CustomerController::class,'postforgot'])->name('zipposhop.postforgot');
+        
+        // login by gg
+        Route::get('/google',[ShopController::class,'loginbyGG'])->name('login.google');
+        Route::get('/google/callback',[ShopController::class,'loginGGCallBack']);
+    }); 
+    Route::resource('zipposhop',ShopController::class); 
+    
+   
+    
+    // lấy lại mk user bằng email
+    Route::get('/forgotpassword',[UserController::class,'forgotpassword'])->name('user.forgotpassword');
+    Route::post('/postforgot',[UserController::class,'postforgot'])->name('user.postforgot');
+
+    // admin
     Route::middleware(['auth','preventhistory'])->group(function(){
-        // route category
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
+        Route::get('/search',[AuthController::class,'search'])->name('auth.search');
+        
+        // Xuất excel
+        Route::get('/user/export',[ExportController::class,'user_export'])->name('user.export');
+        Route::get('/customer/export',[ExportController::class,'customer_export'])->name('customer.export');
+        
+        // xuất pdf
+        // Route::get('order/notes', [NotesController::class,'order_notes'])->name('order.notes');
+        Route::get('order/pdf/{id}', [NotesController::class,'order_pdf'])->name('order.pdf');
+        
+        // route category
         Route::group(['prefix'=>'category'],function(){
             Route::get('/trash',[CategoryController::class,'trash'])->name('category.trash');
             Route::get('/restore/{id}',[CategoryController::class,'restore'])->name('category.restore');
@@ -58,11 +96,6 @@ use App\Models\User;
         Route::resource('product',ProductController::class);
 
         // route customer
-        Route::group(['prefix'=>'customer'],function(){
-            Route::get('/trash',[CustomerController::class,'trash'])->name('customer.trash');
-            Route::get('/restore/{id}',[CustomerController::class,'restore'])->name('customer.restore');
-            Route::get('/deleteforever/{id}',[CustomerController::class,'deleteforever'])->name('customer.deleteforever');
-        });
         Route::resource('customer',CustomerController::class);
 
         // route order
@@ -102,3 +135,5 @@ use App\Models\User;
         });
         Route::resource('group',GroupController::class);
     });
+
+    

@@ -1,5 +1,6 @@
 @extends('admin.master')
 @section('content')
+@include('sweetalert::alert')
 <form action="{{ route('customer.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="col-lg-9">
@@ -8,7 +9,7 @@
                 <strong>Customer create form</strong>
             </div>
             <div class="card-body card-block">
-            <div class="form-group row">
+                <div class="form-group row">
                     <div class="col-sm-6">
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control form-control-user" name="name"
@@ -88,7 +89,7 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <a href="{{ route('product.index') }}" class='btn btn-primary'>Back</a>
+                <a href="{{ route('product.index') }}" class='btn btn-secondary'>Back</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -16,7 +19,7 @@ class CustomerController extends Controller
     {
         try {
             $this->authorize('viewAny',Customer::class);
-            $customers = Customer::paginate(5);
+            $customers = Customer::orderby('id','DESC')->paginate(5);
             return view('admin.customer.index',compact(['customers']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
@@ -45,33 +48,66 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         // dd($request);
-        $customer = new Customer();
-        $customer->name = $request->name;
-        $customer->day_of_birth = $request->day_of_birth;
-        $customer->address = $request->address;
-        $customer->email = $request->email;
-        $customer->gender = $request->gender;
-        $customer->phone = $request->phone;
-        $customer->password = bcrypt($request->password);
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $get_img = $request->file($fieldName);
-            $path = 'storage/customer/';
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $customer->image = $path.$new_name_img;
-        } 
-        $customer->save();
-        alert()->success('Success Created');
-        return redirect()->route('customer.index');
+        try{
+            $customer = new Customer();
+            $customer->name = $request->name;
+            $customer->day_of_birth = $request->day_of_birth;
+            $customer->address = $request->address;
+            $customer->email = $request->email;
+            $customer->gender = $request->gender;
+            $customer->phone = $request->phone;
+            $customer->password = bcrypt($request->password);
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $get_img = $request->file($fieldName);
+                $path = 'storage/customer/';
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $customer->image = $path.$new_name_img;
+            } 
+            $customer->save();
+            alert()->success('Success Created');
+            return redirect()->route('customer.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function forgotpassword(Customer $customer)
     {
-        //
+        $categories = Category::get();
+        return view('shop.forgotpassword.forgot',compact('categories'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function postforgot(Request $request)
+    {
+        $customer = Customer::where('email', $request->email)->first(); // Tìm người dùng dựa trên địa chỉ email yêu cầu
+
+        if ($customer) {
+            $pass = Str::random(6);
+            $customer->password = bcrypt($pass);
+            $customer->save();
+
+            $data = [
+                'name' => $customer->name,
+                'pass' => $pass,
+                'email' => $customer->email,
+            ];
+
+            Mail::send('shop.forgotpassword.sendmail', compact('data'), function ($email) use (&$customer) {
+                $email->from($customer->email, 'Zippo Viet Nam'); // Địa chỉ email và tên người gửi là email của người dùng
+                $email->subject('Forgot Password');
+                $email->to($customer->email, $customer->name);
+            });
+        }
+        return redirect()->route('zipposhop.login');
     }
 
     /**
@@ -95,48 +131,38 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, String $id)
     {
-        // dd($request);
-        $customer = Customer::find($id);
-        $customer->name = $request->name;
-        $customer->day_of_birth = $request->day_of_birth;
-        $customer->address = $request->address;
-        $customer->email = $request->email;
-        $customer->gender = $request->gender;
-        $customer->phone = $request->phone;
-        $customer->password = bcrypt($request->password);
-        $fieldName = 'image';
-        if ($request->hasFile($fieldName)) {
-            $path = $customer->image;
-            if (file_exists($path)) {
-                unlink($path);
-            }
-            $path = 'storage/customer/';
-            $get_img = $request->file($fieldName);
-            $new_name_img = rand(1,100).$get_img->getClientOriginalName();
-            $get_img->move($path,$new_name_img);
-            $customer->image = $path.$new_name_img;
-        } 
-        $customer->save();
-        alert()->success('Success update');
-        return redirect()->route('customer.index');
+        try{
+            $customer = Customer::find($id);
+            $customer->name = $request->name;
+            $customer->day_of_birth = $request->day_of_birth;
+            $customer->address = $request->address;
+            $customer->email = $request->email;
+            $customer->gender = $request->gender;
+            $customer->phone = $request->phone;
+            $customer->password = bcrypt($request->password);
+            $fieldName = 'image';
+            if ($request->hasFile($fieldName)) {
+                $path = $customer->image;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+                $path = 'storage/customer/';
+                $get_img = $request->file($fieldName);
+                $new_name_img = rand(1,100).$get_img->getClientOriginalName();
+                $get_img->move($path,$new_name_img);
+                $customer->image = $path.$new_name_img;
+            } 
+            $customer->save();
+            alert()->success('Success update');
+            return redirect()->route('customer.index');
+        } catch (\Exception $e) {
+            alert()->warning('Bạn không có quyền truy cập');
+            return back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
-     */
-    public function trash()
-    {
-        try {
-            //code...
-            $this->authorize('viewTrash',Customer::class);
-            $customers = Customer::onlyTrashed()->paginate(5);
-            return view('admin.customer.trash',compact(['customers']));
-        } catch (\Exception $e) {
-            alert()->warning('Have problem! Please try again late');
-            return back();
-        } 
-    }
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(String $id)
@@ -152,35 +178,5 @@ class CustomerController extends Controller
             alert()->warning('Have problem! Please try again late');
             return back();
         } 
-    }
-    function restore(String $id){
-        try {
-            $customer = Customer::withTrashed()->find($id);
-            $this->authorize('restore',$customer);
-            $customer->restore();
-            alert()->success('Restore customer success');
-            return redirect()->route('customer.index');
-        } catch (\Exception $e) {
-            // Log::error($e->getMessage());
-            alert()->warning('Have problem! Please try again late');
-            return redirect()->route('customer.index');
-        }
-    }
-    function deleteforever(String $id){
-        try {
-            $customer = Customer::withTrashed()->find($id);
-            $this->authorize('forceDelete',$customer);
-            $path = $customer->image;
-            if (file_exists($path)) {
-                unlink($path);
-            }
-            $customer->forceDelete();
-            alert()->success('Destroy customer success');
-            return back();
-        } catch (\Exception $e) {
-            // Log::error($e->getMessage());
-            alert()->warning('Have problem! Please try again late');
-            return back();
-        }
     }
 }

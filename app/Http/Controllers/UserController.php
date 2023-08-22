@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -17,7 +20,7 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('viewAny',User::class);
-            $users = User::with('group')->paginate(3);
+            $users = User::orderby('group_id','ASC')->with('group')->paginate(3);
             $param = [
                 'users' => $users,
             ];
@@ -36,7 +39,8 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('create',User::class);
-            return view('admin.user.create');
+            $groups = Group::where('id','<>',1)->get();
+            return view('admin.user.create',compact(['groups']));
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
             return back();
@@ -56,7 +60,6 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->phone = $request->phone;
         $user->group_id = $request->group_id;
-        $user->branch = $request->branch;
         $user->password = bcrypt($request->password);
         $fieldName = "image";
         if ($request->hasFile($fieldName)) {
@@ -87,8 +90,13 @@ class UserController extends Controller
         try {
             //code...
             $this->authorize('update',User::class);
-            $user = User::find($id);
-            return view('admin.user.edit',compact(['user']));
+            $user = User::with('group')->find($id);
+            $groups = Group::where('id','<>',1)->get();
+            $param = [
+                'user' => $user,
+                'groups' => $groups,
+            ];
+            return view('admin.user.edit',$param);
         } catch (\Exception $e) {
             alert()->warning('Have problem! Please try again late');
             return back();
@@ -126,6 +134,49 @@ class UserController extends Controller
      */
     public function destroy(String $id)
     {
-        
+        try {
+            $this->authorize('delete',User::class);
+            $user = User::find($id);
+            $get_img = $user->image;
+            if (file_exists($get_img)) {
+                unlink($get_img);
+            }
+            $user->delete();
+            alert()->success('Delete Success');
+            return redirect()->route('user.index');
+        } catch (\Exception $e) {
+            alert()->warning('Delete Error');
+            return back();
+        }
+    }
+    public function forgotpassword(User $user)
+    {
+        return view('admin.forgotpassword.forgot');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function postforgot(Request $request)
+    {
+        $user = User::where('email', $request->email)->first(); // Tìm người dùng dựa trên địa chỉ email yêu cầu
+        if ($user) {
+            $pass = Str::random(6);
+            $user->password = bcrypt($pass);
+            $user->save();
+
+            $data = [
+                'name' => $user->name,
+                'pass' => $pass,
+                'email' => $user->email,
+            ];
+
+            Mail::send('shop.forgotpassword.sendmail', compact('data'), function ($email) use ($user) {
+                $email->from($user->email, 'Zippo Viet Nam'); // Địa chỉ email và tên người gửi là email của người dùng
+                $email->subject('Forgot Password');
+                $email->to($user->email, $user->name);
+            });
+        }
+        return redirect()->route('auth.login');
     }
 }

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->text('image');
             $table->string('name');
-            $table->date('day_of_birth');
-            $table->tinyInteger('gender');
-            $table->text('address');
+            $table->date('day_of_birth')->nullable();
+            $table->tinyInteger('gender')->nullable();
+            $table->text('address')->nullable();
             $table->text('email');
-            $table->text('phone');
-            $table->text('password');
+            $table->text('phone')->nullable();
+            $table->text('password')->nullable();
             $table->timestamps();
         });
     }

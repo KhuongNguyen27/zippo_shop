@@ -13,7 +13,7 @@ class GroupPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission('User_viewAny');
+        return $user->hasPermission('Group_viewAny');
     }
 
     /**
@@ -21,7 +21,7 @@ class GroupPolicy
      */
     public function view(User $user, Group $group): bool
     {
-        return $user->hasPermission('User_view');
+        return $user->hasPermission('Group_view');
     }
 
     /**
@@ -29,7 +29,7 @@ class GroupPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermission('User_create');
+        return $user->hasPermission('Group_create');
     }
 
     /**
@@ -37,7 +37,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group): bool
     {
-        return $user->hasPermission('User_update');
+        return $user->hasPermission('Group_update');
     }
 
     /**
@@ -46,7 +46,7 @@ class GroupPolicy
     public function delete(User $user, Group $group): bool
     {
         //
-        return $user->hasPermission('User_delete');
+        return $user->hasPermission('Group_delete');
     }
 
     /**
@@ -54,7 +54,7 @@ class GroupPolicy
      */
     public function restore(User $user, Group $group): bool
     {
-        return $user->hasPermission('User_restore');
+        return $user->hasPermission('Group_restore');
     }
 
     /**
@@ -62,11 +62,16 @@ class GroupPolicy
      */
     public function forceDelete(User $user, Group $group): bool
     {
-        return $user->hasPermission('User_forceDelete');
+        return $user->hasPermission('Group_forceDelete');
     }
     public function viewTrash(User $user)
     {
         return $user->hasPermission('Group_viewTrash');
         //
+    }
+    public function Permission(User $user, Group $group): bool
+    {
+        //
+        return $user->hasPermission('Group_permission');
     }
 }

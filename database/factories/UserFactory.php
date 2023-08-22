@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'email' => fake()->email,
             'gender' =>  fake()->numberBetween($min = 0, $max = 2),
             'day_of_birth' => fake()->date(),
-            'group_id' => fake()->numberBetween($min = 1, $max = 3),
+            'group_id' => fake()->numberBetween($min = 2, $max = 3),
             'address' => fake()->address(),
             'phone' => fake()->phonenumber(),
             'password' => bcrypt('123456'),

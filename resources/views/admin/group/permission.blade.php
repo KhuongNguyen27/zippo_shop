@@ -3,11 +3,14 @@
 @section('content')
 <div class="content">
     <div class="animated fadeIn">
+        <h1 class="text-center"><strong>Permission</strong></h1>
         <div class="buttons">
-            <h1 class="text-center" style="color:blue"><strong>Permission</strong></h1>
-            <input type="checkbox" id="checkAll" class="form-check-input" value="Quyền hạn">
-            <label class="w3-button w3-blue" style="color:blue">{{ __('Grant all permissions') }}</label>
-            <br>
+            <div class="ml-5">
+                <div class="mb-3">
+                    <label class="form-label"><b>Premissions </b> : <a href="javascript:;" id="checkAll" style="color:blue;">Checkall</a>
+                    </label>
+                </div>
+            </div>
             <form action="{{ route('group.grantpermission') }}" method="post">
                 <input type="hidden" name="id" value="{{ $id }}">
                 @csrf
@@ -15,16 +18,18 @@
                     @php
                     $groupNames = $roles->keys();
                     @endphp
-                    @foreach($roles as $role)
+                    @foreach($roles as $key => $role)
                     <div class="col-md-6">
                         <div class="card-body d-flex justify-content-between align-items-center">
-                            <div class="col-md-12">
+                            <div class="col-md-12"
+                                style='background-color: #ffeeba; padding: 20px; border: 2px solid #d6d6d6; border-top-color: #f9f9f9; border-left-color: #f9f9f9; border-bottom-color: #b3b3b3; border-right-color: #b3b3b3;'>
+                                <h3 class="text-center" style="color:blue"><b>{{ $key }}</b></h3>
                                 <div class="card">
                                     @foreach($role as $group)
                                     <div class="list-group-item d-flex justify-content-between align-items-center">
                                         <label class="form-check form-switch">
-                                            <input class="checkItem form-check-input checkItem" type="checkbox"
-                                                name="name[]" value="{{$group->id}}" id="">
+                                            <input class="form-check-input" type="checkbox" name="name[]"
+                                                value="{{$group->id}}">
                                             <span>{{ $group->name }}</span>
                                             <span class="switcher-indicator"></span>
                                         </label>
@@ -36,17 +41,25 @@
                     </div>
                     @endforeach
                 </div>
-                <a href="{{ route('group.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('group.index') }}" class="btn btn-info">Back</a>
                 <input type="submit" class="btn btn-primary" value="Submit">
             </form>
         </div>
     </div>
 </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
-$('#checkAll').click(function() {
-    $(':checkbox.checkItem').prop('checked', this.checked);
+jQuery(document).ready(function() {
+    jQuery('#checkAll').click(function() {
+        if (jQuery(this).hasClass('checked')) {
+            $('.form-check-input').prop('checked', false);
+            $(this).removeClass('checked');
+            $(this).html('CheckAll');
+        } else {
+            $('.form-check-input').prop('checked', true);
+            $(this).addClass('checked');
+            $(this).html('UnCheckAll');
+        }
+    });
 });
 </script>
 @endsection

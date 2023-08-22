@@ -16,6 +16,10 @@ class OrderPolicy
         return $user->hasPermission('Order_viewAny');
         //
     }
+    public function export(User $user)
+   {
+      return $user->hasPermission('Group_export');
+   }
 
     /**
      * Determine whether the user can view the model.

@@ -19,6 +19,7 @@ class UserPolicy
    {
       return $user->hasPermission('User_viewAny');
    }
+   
 
    /**
     * Determine whether the user can view the model.
@@ -27,7 +28,22 @@ class UserPolicy
     * @param  \App\Models\User  $model
     * @return \Illuminate\Auth\Access\Response|bool
     */
-   public function view(User $user)
+   
+   public function export(User $user)
+   {
+      return $user->hasPermission('User_export');
+   }
+    
+ 
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    
+    public function view(User $user)
    {
       return $user->hasPermission('User_view');
       //

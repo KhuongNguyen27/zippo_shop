@@ -22,7 +22,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|unique:users|email',
+            'email' => 'required|email',
             'gender' => 'required|numeric',
             'password' => 'required',
             'repeatpassword' => 'required|same:password',

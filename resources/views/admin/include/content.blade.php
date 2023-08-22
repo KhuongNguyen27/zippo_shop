@@ -1,5 +1,6 @@
 @extends('admin.master')
 @section('content')
+@include('sweetalert::alert')
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
@@ -7,17 +8,6 @@
                 <div class="page-header float-left">
                     <div class="page-title">
                         <h1>Dashboard</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Table</a></li>
-                            <li class="active">Data table</li>
-                        </ol>
                     </div>
                 </div>
             </div>
@@ -34,22 +24,17 @@
                         <strong class="card-title">Data Table</strong>
                     </div>
                     <div class="card-body">
-                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <td>Name</td>
-                                <td>Position</td>
-                                <td>Office</td>
-                                <td>Salary</td>
-                            </tbody>
-                        </table>
+                        <script>
+                               function loadDoc(){
+                                var xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function(){
+                                    if (this.readyState ==4 && this.status ==200) {
+                                        
+                                    }
+                                }
+                               }
+                        </script>
+                        <p>asdasdasdasda</p>
                     </div>
                 </div>
             </div>

@@ -22,9 +22,10 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => 'required|numeric',
-            'description' => 'required',
+            'customer_id' => 'same:old_customer_id_column',
+            'note' => 'required',
             'date_ship' => 'required|date',
+            'status' => 'required'
         ];
     }
 }

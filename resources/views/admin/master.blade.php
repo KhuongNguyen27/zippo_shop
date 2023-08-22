@@ -1,22 +1,13 @@
 @include('admin.include.header')
 <body class='open'>
-    <!-- Left Panel -->
     @include('admin.include.sidebar')
-    <!-- /#left-panel -->
-    <!-- Left Panel -->
-    <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
-        <!-- Header-->
         @include('admin.include.nav')
-        <!-- /header -->
-        <!-- Content-->
-        @yield('content')
-        <!-- .content -->
-        <div class="clearfix"></div>    
+        <div class="mb-2 mr-3">
+            @yield('content')
+        </div>
+        <div class="clearfix"></div>
         @include('admin.include.footer')
     </div>
-    <!-- /#right-panel -->
-    <!-- Right Panel -->
-    <!-- Scripts -->
 </body>
 </html>

@@ -23,8 +23,9 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|numeric',
-            'description' => 'required',
-            'date_ship' => 'required|date',
+            'note' => 'required',
+            'product_id' => 'required|numeric',
+            'quantity' => 'required|numeric',
         ];
     }
 }
